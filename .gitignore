@@ -1,0 +1,46 @@
+# Byte-compiled Python files
+*.pyc
+*.pyo
+__pycache__/
+
+# Virtual environment
+venv/
+env/
+
+# Django stuff
+*.log
+*.pot
+*.pyc
+*.sqlite3
+db.sqlite3
+
+# Media and static files
+/static/
+/media/
+
+# Local development settings
+local_settings.py
+
+# IDE-specific files
+.idea/
+.vscode/
+*.sublime-project
+*.sublime-workspace
+
+# macOS files
+.DS_Store
+
+# Windows files
+Thumbs.db
+ehthumbs.db
+
+# Node.js dependencies (if applicable)
+node_modules/
+
+# Build and deployment files
+*.egg-info/
+dist/
+build/
+
+# Environment variables
+.env
