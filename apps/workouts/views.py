@@ -31,12 +31,13 @@ class WorkoutCreateView(LoginRequiredMixin, CreateView):
     success_url = reverse_lazy('workouts:list')
 
     def form_valid(self, form):
-        # Assign the logged-in user as the workout creator
+        # Assign the logged-in user as the workout creator.
         form.instance.user = self.request.user
         return super().form_valid(form)
 
 
 class WorkoutUpdateView(LoginRequiredMixin, UpdateView):
+    # Allows the logged-in user to update an existing workout.
     model = Workout
     fields = ['name', 'exercises', 'duration', 'intensity']
     template_name = 'workouts/workout_form.html'
@@ -44,6 +45,7 @@ class WorkoutUpdateView(LoginRequiredMixin, UpdateView):
 
 
 class WorkoutDeleteView(LoginRequiredMixin, DeleteView):
+    # Allows the logged-in user to delete a workout.
     model = Workout
     template_name = 'workouts/workout_confirm_delete.html'
     success_url = reverse_lazy('workouts:list')
