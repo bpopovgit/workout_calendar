@@ -8,7 +8,7 @@ from django.contrib.auth.forms import UserCreationForm
 from django.views.generic.edit import CreateView
 from django.shortcuts import render
 from django.contrib.auth.decorators import login_required
-
+from django.http import Http404
 
 
 class UserProfileDetailView(LoginRequiredMixin, DetailView):
@@ -17,8 +17,10 @@ class UserProfileDetailView(LoginRequiredMixin, DetailView):
     context_object_name = 'profile'
 
     def get_object(self):
-        # Return the UserProfile for the currently logged-in user
-        return UserProfile.objects.get(user=self.request.user)
+        try:
+            return self.request.user.userprofile
+        except UserProfile.DoesNotExist:
+            raise Http404("UserProfile does not exist. Please contact support.")
 
 
 class UserProfileUpdateView(LoginRequiredMixin, UpdateView):

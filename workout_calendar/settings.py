@@ -130,7 +130,7 @@ STATICFILES_DIRS = [BASE_DIR / 'static']
 
 # Redirect to the profile page after login
 LOGIN_REDIRECT_URL = '/users/profile/'
-
+LOGOUT_REDIRECT_URL = '/'
 
 MEDIA_URL = '/media/'
 MEDIA_ROOT = BASE_DIR / 'media'

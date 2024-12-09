@@ -27,7 +27,12 @@
                         <li class="nav-item"><a class="nav-link" href="{% url 'workouts:list' %}">Workouts</a></li>
                         <li class="nav-item"><a class="nav-link" href="{% url 'progress:log_list' %}">Progress</a></li>
                         <li class="nav-item"><a class="nav-link" href="{% url 'schedule:schedule_list' %}">Schedule</a></li>
-                        <li class="nav-item"><a class="nav-link" href="{% url 'logout' %}">Logout</a></li>
+                        <li class="nav-item">
+                            <form method="post" action="{% url 'logout' %}" style="display: inline;">
+                                {% csrf_token %}
+                                <button type="submit" class="btn btn-link nav-link" style="padding: 0; color: inherit;">Logout</button>
+                            </form>
+                        </li>
                     {% else %}
                         <li class="nav-item"><a class="nav-link" href="{% url 'login' %}">Login</a></li>
                         <li class="nav-item"><a class="nav-link" href="{% url 'users:signup' %}">Sign Up</a></li>
