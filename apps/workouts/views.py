@@ -1,9 +1,14 @@
+from django.contrib.auth.decorators import login_required
+from django.shortcuts import render
 from django.views.generic.list import ListView
 from django.views.generic.edit import CreateView, UpdateView, DeleteView
 from django.views.generic.detail import DetailView
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.urls import reverse_lazy
 from .models import Workout
+from ..progress.models import WorkoutLog
+from django.db.models import Q
+from django.core.paginator import Paginator
 
 
 class WorkoutListView(LoginRequiredMixin, ListView):
@@ -49,3 +54,16 @@ class WorkoutDeleteView(LoginRequiredMixin, DeleteView):
     model = Workout
     template_name = 'workouts/workout_confirm_delete.html'
     success_url = reverse_lazy('workouts:list')
+
+
+
+
+@login_required
+def workout_history(request):
+    user = request.user
+    workouts = WorkoutLog.objects.filter(user=user).order_by('-date_completed')
+    paginator = Paginator(workouts, 10)  # Show 10 workouts per page
+    page_number = request.GET.get('page')
+    page_obj = paginator.get_page(page_number)
+    return render(request, 'workouts/workout_history.html', {'page_obj': page_obj})
+

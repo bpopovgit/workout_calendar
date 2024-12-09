@@ -1,0 +1,42 @@
+{% extends 'base.html' %}
+{% load duration_filters %}
+{% block content %}
+<h1>Workout History</h1>
+
+<table class="table table-striped">
+    <thead>
+        <tr>
+            <th>Date Completed</th>
+            <th>Workout Name</th>
+            <th>Duration</th>
+            <th>Intensity</th>
+            <th>Notes</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for log in past_workouts %}
+            <tr>
+                <td>{{ log.date_completed }}</td>
+                <td>{{ log.workout.name }}</td>
+                <td>{{ log.workout.duration|duration_to_minutes }}</td>
+                <td>
+                    {% if log.workout.intensity == "Low" %}
+                        <span class="badge bg-success">Low</span>
+                    {% elif log.workout.intensity == "Moderate" %}
+                        <span class="badge bg-warning">Moderate</span>
+                    {% else %}
+                        <span class="badge bg-danger">High</span>
+                    {% endif %}
+                </td>
+                <td>{{ log.notes|default:"No notes" }}</td>
+            </tr>
+        {% empty %}
+            <tr>
+                <td colspan="5">No workout history available.</td>
+            </tr>
+        {% endfor %}
+    </tbody>
+</table>
+
+<a href="{% url 'profile' %}" class="btn btn-secondary">Back to Profile</a>
+{% endblock %}
