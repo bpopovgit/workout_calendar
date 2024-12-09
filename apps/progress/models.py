@@ -4,8 +4,8 @@ from apps.workouts.models import Workout
 
 
 class WorkoutLog(models.Model):
-    user = models.ForeignKey(User, on_delete=models.CASCADE)
-    workout = models.ForeignKey(Workout, on_delete=models.CASCADE)
+    user = models.ForeignKey(User, on_delete=models.CASCADE, related_name="workout_logs")
+    workout = models.ForeignKey(Workout, on_delete=models.CASCADE, related_name="logs")
     date_completed = models.DateField(auto_now_add=True)
     notes = models.TextField(blank=True, null=True)
 
@@ -14,9 +14,9 @@ class WorkoutLog(models.Model):
 
 
 class Progress(models.Model):
-    user = models.OneToOneField(User, on_delete=models.CASCADE)
-    workouts_completed = models.PositiveIntegerField(default=0)
-    total_duration = models.DurationField(default=0)
+    user = models.OneToOneField(User, on_delete=models.CASCADE, related_name="progress")
+    total_workouts_completed = models.PositiveIntegerField(default=0)
+    total_duration = models.DurationField(default="0:00:00")
 
     def __str__(self):
         return f"{self.user.username}'s Progress"
