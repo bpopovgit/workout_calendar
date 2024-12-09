@@ -3,7 +3,10 @@ from django.urls import path, include
 from django.conf import settings
 from django.conf.urls.static import static
 
+from apps.public.views import HomePageView
+
 urlpatterns = [
+    path('', HomePageView.as_view(), name='home'),  # Home page
     path('admin/', admin.site.urls),  # Admin site
     path('users/', include('apps.users.urls')),  # Users app
     path('workouts/', include('apps.workouts.urls')),  # Workouts app
