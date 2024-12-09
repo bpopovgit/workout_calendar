@@ -2,9 +2,13 @@ from django.views.generic.detail import DetailView
 from django.views.generic.edit import UpdateView
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.urls import reverse_lazy
+from .forms import CustomUserCreationForm
 from .models import UserProfile
 from django.contrib.auth.forms import UserCreationForm
 from django.views.generic.edit import CreateView
+from django.shortcuts import render
+from django.contrib.auth.decorators import login_required
+
 
 
 class UserProfileDetailView(LoginRequiredMixin, DetailView):
@@ -30,6 +34,12 @@ class UserProfileUpdateView(LoginRequiredMixin, UpdateView):
 
 
 class SignUpView(CreateView):
-    form_class = UserCreationForm
+    form_class = CustomUserCreationForm
     template_name = 'users/signup.html'
-    success_url = reverse_lazy('login')  # Redirect to login page after successful signup
+    success_url = reverse_lazy('login')
+
+
+def profile_view(request):
+    user = request.user
+    welcome_message = f"Welcome, {user.first_name} {user.last_name}"
+    return render(request, 'users/profile.html', {'welcome_message': welcome_message})
