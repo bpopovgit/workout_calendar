@@ -12,6 +12,8 @@ urlpatterns = [
     path('workouts/', include('apps.workouts.urls')),  # Workouts app
     path('schedule/', include('apps.schedule.urls')),  # Schedule app
     path('progress/', include('apps.progress.urls')),  # Progress app
+    path('accounts/', include('django.contrib.auth.urls')),  # Authentication URLs
+
 ]
 
 # Serve static and media files during development
