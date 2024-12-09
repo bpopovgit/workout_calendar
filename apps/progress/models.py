@@ -20,3 +20,22 @@ class Progress(models.Model):
 
     def __str__(self):
         return f"{self.user.username}'s Progress"
+
+
+class Goal(models.Model):
+    user = models.ForeignKey(User, on_delete=models.CASCADE, related_name='goals')
+    name = models.CharField(max_length=255)
+    target = models.FloatField()  # e.g., number of workouts, hours, distance
+    progress = models.FloatField(default=0)  # Current progress toward the target
+    is_active = models.BooleanField(default=True)
+    created_at = models.DateTimeField(auto_now_add=True)
+    due_date = models.DateField(null=True, blank=True)
+
+    def __str__(self):
+        return self.name
+
+    @property
+    def percentage_complete(self):
+        if self.target == 0:
+            return 0
+        return (self.progress / self.target) * 100

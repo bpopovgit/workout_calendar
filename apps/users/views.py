@@ -1,3 +1,6 @@
+from datetime import date
+
+from django.db.models import Sum
 from django.views.generic.detail import DetailView
 from django.views.generic.edit import UpdateView
 from django.contrib.auth.mixins import LoginRequiredMixin
@@ -9,6 +12,9 @@ from django.views.generic.edit import CreateView
 from django.shortcuts import render
 from django.contrib.auth.decorators import login_required
 from django.http import Http404
+
+from ..progress.models import WorkoutLog
+from ..workouts.models import Workout
 
 
 class UserProfileDetailView(LoginRequiredMixin, DetailView):
@@ -44,4 +50,13 @@ class SignUpView(CreateView):
 def profile_view(request):
     user = request.user
     welcome_message = f"Welcome, {user.first_name} {user.last_name}"
-    return render(request, 'users/profile.html', {'welcome_message': welcome_message})
+    upcoming_workouts = Workout.objects.filter(user=user, date__gte=date.today()).order_by('date')
+    completed_workouts = WorkoutLog.objects.filter(user=user).count()
+    hours_spent = WorkoutLog.objects.filter(user=user).aggregate(total_hours=Sum('duration'))['total_hours'] or 0
+
+    return render(request, 'users/profile.html', {
+        'welcome_message': welcome_message,
+        'upcoming_workouts': upcoming_workouts,
+        'completed_workouts': completed_workouts,
+        'hours_spent': hours_spent,
+    })

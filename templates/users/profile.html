@@ -1,1 +1,8 @@
-<h1>{{ welcome_message }}</h1>
+{% extends 'base.html' %}
+
+{% block content %}
+<h1>Welcome, {{ user.first_name }} {{ user.last_name }}</h1>
+<p>Your personalized workout calendar is below.</p>
+
+<!-- Add dynamic sections here -->
+{% endblock %}
