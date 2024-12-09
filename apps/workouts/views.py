@@ -56,8 +56,6 @@ class WorkoutDeleteView(LoginRequiredMixin, DeleteView):
     success_url = reverse_lazy('workouts:list')
 
 
-
-
 @login_required
 def workout_history(request):
     user = request.user
@@ -65,5 +63,4 @@ def workout_history(request):
     paginator = Paginator(workouts, 10)  # Show 10 workouts per page
     page_number = request.GET.get('page')
     page_obj = paginator.get_page(page_number)
-    return render(request, 'workouts/workout_history.html', {'page_obj': page_obj})
-
+    return render(request, 'workouts/workouts_history.html', {'page_obj': page_obj})

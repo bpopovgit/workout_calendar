@@ -2,8 +2,9 @@
 
 {% block content %}
 <h1>Welcome, {{ user.first_name }} {{ user.last_name }}</h1>
-<p>Your personalized workout calendar is below.</p>
+<p>Your personalized workout dashboard is below.</p>
 
+<!-- Upcoming Workouts Section -->
 <h2>Upcoming Workouts</h2>
 <ul>
     {% for workout in upcoming_workouts %}
@@ -13,10 +14,22 @@
     {% endfor %}
 </ul>
 
+<!-- Recent Workouts Section -->
+<h2>Recent Workouts</h2>
+<ul>
+    {% for log in recent_workouts %}
+        <li>{{ log.date_completed }}: {{ log.workout.name }} ({{ log.workout.intensity }})</li>
+    {% empty %}
+        <p>No recent workouts.</p>
+    {% endfor %}
+</ul>
+
+<!-- Progress Section -->
 <h2>Your Progress</h2>
 <p>Workouts completed: {{ completed_workouts }}</p>
 <p>Total hours spent: {{ hours_spent }}</p>
 
+<!-- Goals Section -->
 <h2>Your Goals</h2>
 <ul>
     {% for goal in active_goals %}
@@ -26,16 +39,16 @@
             {% if goal.due_date %}
                 <p>Due by: {{ goal.due_date }}</p>
             {% endif %}
+            <a href="{% url 'progress:update_goal' goal.id %}" class="btn btn-link">Edit</a>
         </li>
     {% empty %}
         <p>No active goals. Set a new one today!</p>
     {% endfor %}
 </ul>
+<a href="{% url 'progress:create_goal' %}" class="btn btn-primary">Add a New Goal</a>
 
-<!-- Add the link to create a new goal here -->
-<a href="{% url 'create_goal' %}" class="btn btn-primary">Add a New Goal</a>
-
+<!-- Workout History Section -->
 <h2>Workout History</h2>
-<a href="{% url 'workout_history' %}" class="btn btn-secondary">View All Past Workouts</a>
+<a href="{% url 'workouts:workout_history' %}" class="btn btn-secondary">View All Past Workouts</a>
 
 {% endblock %}

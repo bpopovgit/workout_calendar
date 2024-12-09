@@ -50,7 +50,7 @@ def update_goal(request, pk):
         form = GoalForm(request.POST, instance=goal)
         if form.is_valid():
             form.save()
-            return redirect('profile')
+            return redirect('users:profile')
     else:
         form = GoalForm(instance=goal)
     return render(request, 'progress/update_goal.html', {'form': form})

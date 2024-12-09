@@ -1,5 +1,4 @@
-from datetime import date
-
+from datetime import date, timedelta
 from django.db.models import Sum
 from django.views.generic.detail import DetailView
 from django.views.generic.edit import UpdateView
@@ -12,7 +11,6 @@ from django.views.generic.edit import CreateView
 from django.shortcuts import render
 from django.contrib.auth.decorators import login_required
 from django.http import Http404
-
 from ..progress.models import WorkoutLog, Goal
 from ..workouts.models import Workout
 
@@ -50,15 +48,25 @@ class SignUpView(CreateView):
 def profile_view(request):
     user = request.user
     welcome_message = f"Welcome, {user.first_name} {user.last_name}"
-    upcoming_workouts = Workout.objects.filter(user=user, date__gte=date.today()).order_by('date')
+
+    # Adjusted logic for recent/completed workouts
+    recent_workouts = WorkoutLog.objects.filter(
+        user=user,
+        date_completed__gte=date.today() - timedelta(days=7)  # Example: last 7 days
+    ).order_by('-date_completed')
+
+    # Calculate completed workouts and hours spent
     completed_workouts = WorkoutLog.objects.filter(user=user).count()
-    hours_spent = WorkoutLog.objects.filter(user=user).aggregate(total_hours=Sum('duration'))['total_hours'] or 0
-    active_goals = Goal.objects.filter(user=user, is_active=True)  # Fetch user's active goals
+    hours_spent = WorkoutLog.objects.filter(user=user).aggregate(total_hours=Sum('workout__duration'))[
+                      'total_hours'] or 0
+
+    # Fetch active goals
+    active_goals = Goal.objects.filter(user=user, is_active=True)
 
     return render(request, 'users/profile.html', {
         'welcome_message': welcome_message,
-        'upcoming_workouts': upcoming_workouts,
+        'recent_workouts': recent_workouts,  # Pass recent/completed workouts
         'completed_workouts': completed_workouts,
         'hours_spent': hours_spent,
-        'active_goals': active_goals,  # Pass active goals to the template
+        'active_goals': active_goals,
     })
