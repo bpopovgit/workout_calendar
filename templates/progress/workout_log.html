@@ -1,0 +1,11 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<h1>Your Workout Logs</h1>
+<ul>
+    {% for log in workout_logs %}
+    <li>{{ log.date_completed }}: {{ log.workout.name }} - {{ log.notes }}</li>
+    {% endfor %}
+</ul>
+<a href="{% url 'progress:log_add' %}" class="btn btn-primary">Log a Workout</a>
+{% endblock %}
