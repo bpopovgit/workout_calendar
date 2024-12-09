@@ -16,6 +16,7 @@ class UserProfileDetailView(LoginRequiredMixin, DetailView):
 
 
 class UserProfileUpdateView(LoginRequiredMixin, UpdateView):
+    # Allows the logged-in user to update their profile.
     model = UserProfile
     fields = ['goal', 'profile_picture']
     template_name = 'users/profile_update.html'

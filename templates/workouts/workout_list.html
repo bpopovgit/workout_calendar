@@ -1,0 +1,15 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<h1>Your Workouts</h1>
+<ul>
+    {% for workout in workouts %}
+    <li>
+        <a href="{% url 'workouts:detail' workout.pk %}">{{ workout.name }}</a>
+        <a href="{% url 'workouts:update' workout.pk %}">Edit</a>
+        <a href="{% url 'workouts:delete' workout.pk %}">Delete</a>
+    </li>
+    {% endfor %}
+</ul>
+<a href="{% url 'workouts:create' %}">Create New Workout</a>
+{% endblock %}
