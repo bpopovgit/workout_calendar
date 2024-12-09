@@ -13,7 +13,7 @@ from django.shortcuts import render
 from django.contrib.auth.decorators import login_required
 from django.http import Http404
 
-from ..progress.models import WorkoutLog
+from ..progress.models import WorkoutLog, Goal
 from ..workouts.models import Workout
 
 
@@ -53,10 +53,12 @@ def profile_view(request):
     upcoming_workouts = Workout.objects.filter(user=user, date__gte=date.today()).order_by('date')
     completed_workouts = WorkoutLog.objects.filter(user=user).count()
     hours_spent = WorkoutLog.objects.filter(user=user).aggregate(total_hours=Sum('duration'))['total_hours'] or 0
+    active_goals = Goal.objects.filter(user=user, is_active=True)  # Fetch user's active goals
 
     return render(request, 'users/profile.html', {
         'welcome_message': welcome_message,
         'upcoming_workouts': upcoming_workouts,
         'completed_workouts': completed_workouts,
         'hours_spent': hours_spent,
+        'active_goals': active_goals,  # Pass active goals to the template
     })
