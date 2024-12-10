@@ -1,0 +1,16 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<h1>Your Workout Logs</h1>
+<ul class="list-group">
+    {% for log in workout_logs %}
+    <li class="list-group-item">
+        <strong>{{ log.workout.name }}</strong> on {{ log.date_completed }}<br>
+        Notes: {{ log.notes|default:"No notes provided" }}
+    </li>
+    {% empty %}
+    <p>You have no workout logs yet. <a href="{% url 'progress:log_add' %}">Add a workout log</a>.</p>
+    {% endfor %}
+</ul>
+<a href="{% url 'progress:log_add' %}" class="btn btn-primary mt-3">Add Workout Log</a>
+{% endblock %}
