@@ -1,14 +1,19 @@
 from django import forms
 from .models import WorkoutLog, Goal
+from ..workouts.models import Workout
 
 
 class WorkoutLogForm(forms.ModelForm):
     class Meta:
         model = WorkoutLog
-        fields = ['workout', 'notes']
-        widgets = {
-            'notes': forms.Textarea(attrs={'rows': 3}),
-        }
+        fields = ['workout', 'date_completed', 'notes']
+
+    def __init__(self, *args, **kwargs):
+        user = kwargs.pop('user', None)  # Extract the 'user' parameter
+        super().__init__(*args, **kwargs)
+        if user:
+            # Filter the workout field to show only the workouts created by the logged-in user
+            self.fields['workout'].queryset = Workout.objects.filter(user=user)
 
 
 class GoalForm(forms.ModelForm):

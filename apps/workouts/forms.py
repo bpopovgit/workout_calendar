@@ -11,3 +11,4 @@ class WorkoutForm(forms.ModelForm):
         widgets = {
             'exercises': Select2MultipleWidget,  # Use Select2 for the exercises field
         }
+

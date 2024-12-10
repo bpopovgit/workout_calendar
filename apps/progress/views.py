@@ -24,7 +24,14 @@ class WorkoutLogCreateView(LoginRequiredMixin, CreateView):
     template_name = 'progress/workout_log_form.html'
     success_url = reverse_lazy('progress:log_list')
 
+    def get_form_kwargs(self):
+        # Pass the logged-in user to the form
+        kwargs = super().get_form_kwargs()
+        kwargs['user'] = self.request.user
+        return kwargs
+
     def form_valid(self, form):
+        # Assign the logged-in user to the WorkoutLog
         form.instance.user = self.request.user
         return super().form_valid(form)
 

@@ -4,13 +4,13 @@ from apps.workouts.models import Workout
 
 
 class WorkoutLog(models.Model):
-    user = models.ForeignKey(User, on_delete=models.CASCADE, related_name="workout_logs")
-    workout = models.ForeignKey(Workout, on_delete=models.CASCADE, related_name="logs")
-    date_completed = models.DateField(auto_now_add=True)
+    user = models.ForeignKey(User, on_delete=models.CASCADE)
+    workout = models.ForeignKey(Workout, on_delete=models.CASCADE)
+    date_completed = models.DateTimeField()  # Removed `editable=False`
     notes = models.TextField(blank=True, null=True)
 
     def __str__(self):
-        return f"{self.user.username} - {self.workout.name} on {self.date_completed}"
+        return f"{self.workout.name} - {self.date_completed}"
 
 
 class Progress(models.Model):
