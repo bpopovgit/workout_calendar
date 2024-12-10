@@ -5,6 +5,8 @@ from django.views.generic.edit import CreateView, UpdateView, DeleteView
 from django.views.generic.detail import DetailView
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.urls import reverse_lazy
+
+from .forms import WorkoutForm
 from .models import Workout
 from ..progress.models import WorkoutLog
 from django.db.models import Q
@@ -29,14 +31,12 @@ class WorkoutDetailView(LoginRequiredMixin, DetailView):
 
 
 class WorkoutCreateView(LoginRequiredMixin, CreateView):
-    # Allows the logged-in user to create a new workout.
     model = Workout
-    fields = ['name', 'exercises', 'duration', 'intensity']
+    form_class = WorkoutForm  # Use the custom form here
     template_name = 'workouts/workout_form.html'
     success_url = reverse_lazy('workouts:list')
 
     def form_valid(self, form):
-        # Assign the logged-in user as the workout creator.
         form.instance.user = self.request.user
         return super().form_valid(form)
 
