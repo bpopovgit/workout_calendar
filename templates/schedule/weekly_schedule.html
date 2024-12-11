@@ -2,6 +2,11 @@
 
 {% block content %}
 <h1>Weekly Workout Schedule</h1>
+
+<!-- Button to Add to Schedule -->
+<a href="{% url 'schedule:schedule_add' %}" class="btn btn-primary mb-4">Add to Schedule</a>
+
+<!-- Weekly Schedule Table -->
 <div class="table-responsive">
     <table class="table table-bordered text-center">
         <thead>
@@ -22,7 +27,7 @@
                     {% if workouts %}
                         {% for workout in workouts %}
                             <p><strong>{{ workout.workout.name }}</strong></p>
-                            <p>{{ workout.description }}</p>
+                            <p>{{ workout.description|default:"No description provided" }}</p>
                             <p>{{ workout.time }}</p>
                         {% endfor %}
                     {% else %}
@@ -34,4 +39,4 @@
         </tbody>
     </table>
 </div>
-{% endblock %}
+{% endblock
