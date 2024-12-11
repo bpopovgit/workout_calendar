@@ -6,13 +6,23 @@
 
 <!-- Upcoming Workouts Section -->
 <h2>Upcoming Workouts</h2>
-<ul>
+<ul class="list-group">
     {% for workout in upcoming_workouts %}
-        <li>{{ workout.date }}: {{ workout.name }} - {{ workout.description }}</li>
+        <li class="list-group-item {% if workout.overdue %}bg-danger text-white{% endif %}">
+            <strong>{{ workout.workout.name }}</strong>
+            <p>Date: {{ workout.date }} - Time: {{ workout.time|time:"H:i" }}</p>
+            <p>Intensity: 
+                <span class="{% if workout.intensity == 'High' %}badge bg-danger{% elif workout.intensity == 'Moderate' %}badge bg-warning text-dark{% else %}badge bg-success{% endif %}">
+                    {{ workout.intensity }}
+                </span>
+            </p>
+            <p>{{ workout.description|default:"No description provided" }}</p>
+        </li>
     {% empty %}
-        <p>No upcoming workouts scheduled.</p>
+        <p class="text-muted">No upcoming workouts scheduled.</p>
     {% endfor %}
 </ul>
+<a href="{% url 'schedule:schedule_list' %}" class="btn btn-primary mt-3">View All Upcoming Workouts</a>
 
 <!-- Recent Workouts Section -->
 <h2>Recent Workouts</h2>

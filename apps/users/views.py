@@ -46,51 +46,33 @@ class SignUpView(CreateView):
     success_url = reverse_lazy('login')
 
 
-def profile_view(request):
-    user = request.user
-    welcome_message = f"Welcome, {user.first_name} {user.last_name}"
-
-    # Adjusted logic for recent/completed workouts
-    recent_workouts = WorkoutLog.objects.filter(
-        user=user,
-        date_completed__gte=date.today() - timedelta(days=7)  # Example: last 7 days
-    ).order_by('-date_completed')
-
-    # Calculate completed workouts and hours spent
-    completed_workouts = WorkoutLog.objects.filter(user=user).count()
-    hours_spent = WorkoutLog.objects.filter(user=user).aggregate(total_hours=Sum('workout__duration'))[
-                      'total_hours'] or 0
-
-    # Fetch active goals
-    active_goals = Goal.objects.filter(user=user, is_active=True)
-
-    return render(request, 'users/profile.html', {
-        'welcome_message': welcome_message,
-        'recent_workouts': recent_workouts,  # Pass recent/completed workouts
-        'completed_workouts': completed_workouts,
-        'hours_spent': hours_spent,
-        'active_goals': active_goals,
-    })
-
-
 # Example logic for fetching upcoming workouts
 def get_upcoming_workouts(user, limit=5):
-    today = datetime.now().date()
-    return WorkoutSchedule.objects.filter(user=user, date__gte=today).order_by('date')[:limit]
+    now = datetime.now()  # Ensure it gets the current date and time
+    # Filter workouts that are in the future
+    workouts = WorkoutSchedule.objects.filter(
+        user=user,
+        date__gte=now.date()
+    ).order_by('date', 'time')
+
+    upcoming = []
+    for workout in workouts:
+        workout_datetime = datetime.combine(workout.date, workout.time)
+        if workout_datetime >= now:  # Ensure the workout is truly in the future
+            workout.overdue = False
+            upcoming.append(workout)
+        else:
+            workout.overdue = True  # This shouldn't trigger for future workouts
+
+    return upcoming[:limit]
 
 
 def user_profile_view(request):
     user = request.user
-
-    # Upcoming workouts
     upcoming_workouts = get_upcoming_workouts(user)
 
-    # Other sections (e.g., recent workouts, progress)
-    # Assuming similar logic is already implemented
-
     context = {
-        'user': user,
         'upcoming_workouts': upcoming_workouts,
-        # Add other sections (recent_workouts, progress, etc.)
+        # Include other context variables (recent_workouts, progress, etc.)
     }
     return render(request, 'users/profile.html', context)
