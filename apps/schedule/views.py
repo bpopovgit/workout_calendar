@@ -6,6 +6,10 @@ from .forms import WorkoutScheduleForm
 from django.shortcuts import render
 from django.utils.timezone import now, timedelta
 from .models import WorkoutSchedule
+from django.shortcuts import render, redirect
+from django.utils.timezone import now
+from .models import Measurement
+from .forms import MeasurementForm
 
 
 class WorkoutScheduleListView(LoginRequiredMixin, ListView):
@@ -49,3 +53,25 @@ def weekly_schedule_view(request):
         'start_of_week': start_of_week,
         'end_of_week': end_of_week,
     })
+
+
+def measurement_tracker_view(request):
+    user = request.user
+    today = now()
+    week_number = today.isocalendar()[1]
+    year = today.year
+
+    # Get or create the measurement for the current week
+    measurement, created = Measurement.objects.get_or_create(
+        user=user, week=week_number, year=year
+    )
+
+    if request.method == 'POST':
+        form = MeasurementForm(request.POST, instance=measurement)
+        if form.is_valid():
+            form.save()
+            return redirect('schedule:measurement_tracker')
+    else:
+        form = MeasurementForm(instance=measurement)
+
+    return render(request, 'schedule/measurement_tracker.html', {'form': form})
