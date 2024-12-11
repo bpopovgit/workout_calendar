@@ -19,7 +19,29 @@
     color: #6c757d;
 }
 
-/* Add spacing for workouts */
-.table td div {
-    margin-bottom: 10px;
+/* CSS for the monthly_schedule.html:
+
+/* Ensure uniform cell size and alignment */
+.calendar-table td {
+    height: 100px; /* Consistent height */
+    width: 14.28%; /* Divide equally among 7 days */
+    vertical-align: top; /* Align content to the top */
 }
+
+.calendar-table td.empty {
+    background-color: #f8f9fa; /* Light gray for empty cells */
+}
+
+.calendar-table td.bg-primary {
+    color: #fff; /* Ensure text is visible on the blue background */
+}
+
+/* Center-align the 'Go' button */
+form {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+
+

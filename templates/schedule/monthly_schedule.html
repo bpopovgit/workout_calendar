@@ -2,26 +2,33 @@
 {% load static %}
 {% load custom_tags %}
 
-{% block title %}Monthly Workout Schedule{% endblock %}
+{% block title %}Workout Schedule{% endblock %}
 
 {% block content %}
 <div class="container mt-4">
-    <a href="{% url 'schedule:schedule_list' %}" class="btn btn-secondary mb-4">Back to Schedule</a>
+    <h2 class="text-center">Workout Schedule</h2>
     
-    <h2 class="text-center">Monthly Workout Schedule</h2>
-    
-    <!-- Month Picker -->
+    <!-- Month Dropdown -->
     <div class="d-flex justify-content-center my-4">
-        <form method="get">
+        <form method="get" id="monthForm">
             <label for="month_start" class="me-2">Select a Month:</label>
-            <input type="month" id="month_start" name="month_start" class="form-control me-2" 
-                   value="{{ current_month_start|date:'Y-m' }}">
-            <button type="submit" class="btn btn-primary">Go</button>
+            <select id="month_start" name="month_start" class="form-select me-2" onchange="document.getElementById('monthForm').submit();">
+                {% for month in month_choices %}
+                    <option value="{{ month|date:'Y-m' }}" {% if month|date:'Y-m' == current_month_start|date:'Y-m' %}selected{% endif %}>
+                        {{ month|date:'F Y' }}
+                    </option>
+                {% endfor %}
+            </select>
         </form>
     </div>
 
+    <!-- Add to Schedule Button -->
+    <div class="text-center mb-4">
+        <a href="{% url 'schedule:schedule_add' %}" class="btn btn-primary">Add Workout to Schedule</a>
+    </div>
+
     <!-- Calendar Table -->
-    <table class="table table-bordered text-center">
+    <table class="table calendar-table table-bordered text-center">
         <thead class="bg-dark text-white">
             <tr>
                 <th>Monday</th>
@@ -37,8 +44,8 @@
             {% for week in weeks %}
                 <tr>
                     {% for day in week %}
-                        <td {% if monthly_schedule and day in monthly_schedule %}class="bg-primary text-white"{% endif %}>
-                            {% if day %}
+                        {% if day %}
+                            <td class="{% if day in monthly_schedule %}bg-primary text-white{% else %}bg-light{% endif %}">
                                 <strong>{{ day }}</strong>
                                 <br>
                                 {% if day in monthly_schedule %}
@@ -52,8 +59,10 @@
                                 {% else %}
                                     Rest
                                 {% endif %}
-                            {% endif %}
-                        </td>
+                            </td>
+                        {% else %}
+                            <td class="bg-light empty"></td>
+                        {% endif %}
                     {% endfor %}
                 </tr>
             {% endfor %}
