@@ -3,8 +3,8 @@
 {% block content %}
 <h1>Weekly Workout Schedule</h1>
 
-<!-- Button to Add to Schedule -->
-<a href="{% url 'schedule:schedule_add' %}" class="btn btn-primary mb-4">Add to Schedule</a>
+<!-- Back to Schedule Button -->
+<a href="{% url 'schedule:schedule_list' %}" class="btn btn-secondary mb-4">Back to Schedule</a>
 
 <!-- Weekly Schedule Table -->
 <div class="table-responsive">
@@ -39,4 +39,4 @@
         </tbody>
     </table>
 </div>
-{% endblock
+{% endblock %}
