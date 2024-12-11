@@ -1,36 +1,33 @@
 {% extends 'base.html' %}
+{% load custom_tags %}
 
 {% block content %}
 <div class="container">
-    <h1 class="text-center mb-4">Weekly Workout Schedule</h1>
+    <h1 class="text-center mb-4">Monthly Workout Schedule</h1>
 
     <!-- Back to Schedule Button -->
     <div class="d-flex justify-content-between align-items-center mb-4">
         <a href="{% url 'schedule:schedule_list' %}" class="btn btn-secondary">Back to Schedule</a>
         <!-- Date Picker -->
         <div>
-            <label for="week-selector" class="form-label">Select a Week:</label>
-            <input type="date" id="week-selector" class="form-control" value="{{ current_week_start|date:'Y-m-d' }}" style="max-width: 200px;" />
+            <label for="month-selector" class="form-label">Select a Month:</label>
+            <input type="month" id="month-selector" class="form-control" value="{{ current_month_start|date:'Y-m' }}" style="max-width: 200px;" />
         </div>
     </div>
 
-    <!-- Weekly Schedule Table -->
+    <!-- Monthly Schedule Table -->
     <div class="table-responsive">
         <table class="table table-bordered text-center">
-            <thead class="bg-dark text-white">
-                <tr>
-                    <th>Monday</th>
-                    <th>Tuesday</th>
-                    <th>Wednesday</th>
-                    <th>Thursday</th>
-                    <th>Friday</th>
-                    <th>Saturday</th>
-                    <th>Sunday</th>
-                </tr>
-            </thead>
+        <thead class="bg-dark text-white">
+            <tr>
+                {% for day in 31|get_range %}
+                <th>{{ day }}</th>
+                {% endfor %}
+            </tr>
+        </thead>
             <tbody>
                 <tr>
-                    {% for day, workouts in weekly_schedule.items %}
+                    {% for day, workouts in monthly_schedule.items %}
                     <td class="{% if workouts %}bg-primary text-white{% else %}bg-light{% endif %}">
                         {% if workouts %}
                             {% for workout in workouts %}
@@ -52,13 +49,9 @@
 </div>
 
 <script>
-    document.getElementById('week-selector').addEventListener('change', function () {
-        const selectedDate = new Date(this.value);
-        if (!isNaN(selectedDate)) {
-            const monday = new Date(selectedDate.setDate(selectedDate.getDate() - selectedDate.getDay() + 1)); // Get the Monday of the week
-            const weekStart = monday.toISOString().split('T')[0]; // Format as YYYY-MM-DD
-            window.location.href = `{% url 'schedule:weekly_schedule' %}?week_start=` + weekStart;
-        }
+    document.getElementById('month-selector').addEventListener('change', function () {
+        const selectedDate = this.value; // e.g., "2024-12"
+        window.location.href = `{% url 'schedule:monthly_schedule' %}?month_start=` + selectedDate + "-01";
     });
 </script>
 {% endblock %}

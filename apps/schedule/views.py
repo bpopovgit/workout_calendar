@@ -1,4 +1,5 @@
-from datetime import datetime, timedelta
+from calendar import monthrange
+from datetime import datetime, timedelta, date
 from django.views.generic import ListView, CreateView
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.urls import reverse_lazy
@@ -30,41 +31,35 @@ class WorkoutScheduleCreateView(LoginRequiredMixin, CreateView):
         return super().form_valid(form)
 
 
-def weekly_schedule_view(request):
-    from django.utils.timezone import now
-    from datetime import timedelta, datetime
-    from .models import WorkoutSchedule
-
-    # Get the 'week_start' parameter from the request
-    week_start_str = request.GET.get('week_start')
-    if week_start_str:
-        try:
-            week_start = datetime.strptime(week_start_str, '%Y-%m-%d').date()
-        except ValueError:
-            week_start = now().date()
+def monthly_schedule_view(request):
+    # Get the 'month_start' parameter from the request
+    month_start_str = request.GET.get('month_start')
+    if month_start_str:
+        month_start = date.fromisoformat(month_start_str)
     else:
-        week_start = now().date()
+        today = now().date()
+        month_start = date(today.year, today.month, 1)  # First day of the current month
 
-    # Calculate the week's Monday
-    # Adjust for weeks that may start on different days (e.g., if the system uses Sunday as the first day of the week)
-    weekday = week_start.weekday()  # 0 = Monday, 6 = Sunday
-    monday = week_start - timedelta(days=weekday)
+    # Get the total number of days in the selected month
+    _, num_days = monthrange(month_start.year, month_start.month)
 
-    # Calculate Sunday
-    sunday = monday + timedelta(days=6)
+    # Calculate the start and end dates of the month
+    month_end = month_start.replace(day=num_days)
 
-    # Filter schedules for the selected week
-    schedules = WorkoutSchedule.objects.filter(date__range=[monday, sunday], user=request.user)
+    # Fetch all schedules for the user within the month
+    schedules = WorkoutSchedule.objects.filter(
+        date__range=[month_start, month_end],
+        user=request.user
+    )
 
     # Organize schedules by day
-    weekly_schedule = {day: [] for day in ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday']}
+    monthly_schedule = {day: [] for day in range(1, num_days + 1)}
     for schedule in schedules:
-        weekday_name = schedule.date.strftime('%A')  # Get the name of the day
-        weekly_schedule[weekday_name].append(schedule)
+        monthly_schedule[schedule.date.day].append(schedule)
 
-    return render(request, 'schedule/weekly_schedule.html', {
-        'weekly_schedule': weekly_schedule,
-        'current_week_start': monday,  # Pass the start of the current week
+    return render(request, 'schedule/monthly_schedule.html', {
+        'monthly_schedule': monthly_schedule,
+        'current_month_start': month_start,
     })
 
 
