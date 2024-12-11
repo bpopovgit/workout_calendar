@@ -32,36 +32,44 @@ class WorkoutScheduleCreateView(LoginRequiredMixin, CreateView):
 
 
 def monthly_schedule_view(request):
-    # Get the 'month_start' parameter from the request
+    today = now().date()
     month_start_str = request.GET.get('month_start')
     if month_start_str:
         month_start = date.fromisoformat(month_start_str)
     else:
-        today = now().date()
-        month_start = date(today.year, today.month, 1)  # First day of the current month
+        month_start = date(today.year, today.month, 1)
 
-    # Get the total number of days in the selected month
     _, num_days = monthrange(month_start.year, month_start.month)
-
-    # Calculate the start and end dates of the month
     month_end = month_start.replace(day=num_days)
 
-    # Fetch all schedules for the user within the month
     schedules = WorkoutSchedule.objects.filter(
         date__range=[month_start, month_end],
         user=request.user
     )
 
-    # Organize schedules by day
     monthly_schedule = {day: [] for day in range(1, num_days + 1)}
     for schedule in schedules:
         monthly_schedule[schedule.date.day].append(schedule)
 
+    # Create a list of weeks
+    days = list(range(1, num_days + 1))
+    first_weekday = month_start.weekday()  # Monday is 0, Sunday is 6
+    weeks = []
+    current_week = [None] * first_weekday
+
+    for day in days:
+        current_week.append(day)
+        if len(current_week) == 7:
+            weeks.append(current_week)
+            current_week = []
+    if current_week:  # Add the remaining days in the last week
+        weeks.append(current_week + [None] * (7 - len(current_week)))
+
     return render(request, 'schedule/monthly_schedule.html', {
         'monthly_schedule': monthly_schedule,
         'current_month_start': month_start,
+        'weeks': weeks,
     })
-
 
 
 def measurement_tracker_view(request):
