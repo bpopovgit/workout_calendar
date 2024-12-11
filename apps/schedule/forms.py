@@ -7,18 +7,15 @@ from .models import Measurement
 class WorkoutScheduleForm(forms.ModelForm):
     class Meta:
         model = WorkoutSchedule
-        fields = ['workout', 'date', 'time']
+        fields = ['workout', 'date', 'time', 'description']  # Include the description field
         widgets = {
-            'date': forms.DateInput(attrs={
-                'type': 'date',  # Use HTML5 date input for better UX
-                'placeholder': 'YYYY-MM-DD',  # Provide a placeholder for the user
-            }),
-            'time': forms.TimeInput(attrs={
-                'type': 'time',  # Use HTML5 time input for better UX
-            }),
+            'date': forms.DateInput(attrs={'type': 'date'}),
+            'time': forms.TimeInput(attrs={'type': 'time'}),
+            'description': forms.Textarea(attrs={'rows': 3,
+                                                 'placeholder': 'Add a description for this workout (optional).'}),
         }
         help_texts = {
-            'date': 'Enter the date in the format YYYY-MM-DD.',
+            'description': 'Provide additional details about this workout schedule.',
         }
 
 

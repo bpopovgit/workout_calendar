@@ -1,42 +1,64 @@
 {% extends 'base.html' %}
 
 {% block content %}
-<h1>Weekly Workout Schedule</h1>
+<div class="container">
+    <h1 class="text-center mb-4">Weekly Workout Schedule</h1>
 
-<!-- Back to Schedule Button -->
-<a href="{% url 'schedule:schedule_list' %}" class="btn btn-secondary mb-4">Back to Schedule</a>
+    <!-- Back to Schedule Button -->
+    <div class="d-flex justify-content-between align-items-center mb-4">
+        <a href="{% url 'schedule:schedule_list' %}" class="btn btn-secondary">Back to Schedule</a>
+        <!-- Date Picker -->
+        <div>
+            <label for="week-selector" class="form-label">Select a Week:</label>
+            <input type="date" id="week-selector" class="form-control" value="{{ current_week_start|date:'Y-m-d' }}" style="max-width: 200px;" />
+        </div>
+    </div>
 
-<!-- Weekly Schedule Table -->
-<div class="table-responsive">
-    <table class="table table-bordered text-center">
-        <thead>
-            <tr>
-                <th>Monday</th>
-                <th>Tuesday</th>
-                <th>Wednesday</th>
-                <th>Thursday</th>
-                <th>Friday</th>
-                <th>Saturday</th>
-                <th>Sunday</th>
-            </tr>
-        </thead>
-        <tbody>
-            <tr>
-                {% for day, workouts in weekly_schedule.items %}
-                <td>
-                    {% if workouts %}
-                        {% for workout in workouts %}
-                            <p><strong>{{ workout.workout.name }}</strong></p>
-                            <p>{{ workout.description|default:"No description provided" }}</p>
-                            <p>{{ workout.time }}</p>
-                        {% endfor %}
-                    {% else %}
-                        <p>Rest</p>
-                    {% endif %}
-                </td>
-                {% endfor %}
-            </tr>
-        </tbody>
-    </table>
+    <!-- Weekly Schedule Table -->
+    <div class="table-responsive">
+        <table class="table table-bordered text-center">
+            <thead class="bg-dark text-white">
+                <tr>
+                    <th>Monday</th>
+                    <th>Tuesday</th>
+                    <th>Wednesday</th>
+                    <th>Thursday</th>
+                    <th>Friday</th>
+                    <th>Saturday</th>
+                    <th>Sunday</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    {% for day, workouts in weekly_schedule.items %}
+                    <td class="{% if workouts %}bg-primary text-white{% else %}bg-light{% endif %}">
+                        {% if workouts %}
+                            {% for workout in workouts %}
+                                <div class="mb-2">
+                                    <p><strong>{{ workout.workout.name }}</strong></p>
+                                    <p>{{ workout.description|default:"No description provided" }}</p>
+                                    <p>{{ workout.time }}</p>
+                                </div>
+                            {% endfor %}
+                        {% else %}
+                            <p>Rest</p>
+                        {% endif %}
+                    </td>
+                    {% endfor %}
+                </tr>
+            </tbody>
+        </table>
+    </div>
 </div>
+
+<script>
+    document.getElementById('week-selector').addEventListener('change', function () {
+        const selectedDate = new Date(this.value);
+        if (!isNaN(selectedDate)) {
+            const monday = new Date(selectedDate.setDate(selectedDate.getDate() - selectedDate.getDay() + 1)); // Get the Monday of the week
+            const weekStart = monday.toISOString().split('T')[0]; // Format as YYYY-MM-DD
+            window.location.href = `{% url 'schedule:weekly_schedule' %}?week_start=` + weekStart;
+        }
+    });
+</script>
 {% endblock %}

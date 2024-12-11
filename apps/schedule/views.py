@@ -1,10 +1,8 @@
+from datetime import datetime, timedelta
 from django.views.generic import ListView, CreateView
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.urls import reverse_lazy
-from .models import WorkoutSchedule
 from .forms import WorkoutScheduleForm
-from django.shortcuts import render
-from django.utils.timezone import now, timedelta
 from .models import WorkoutSchedule
 from django.shortcuts import render, redirect
 from django.utils.timezone import now
@@ -33,26 +31,42 @@ class WorkoutScheduleCreateView(LoginRequiredMixin, CreateView):
 
 
 def weekly_schedule_view(request):
-    user = request.user
-    today = now().date()
-    start_of_week = today - timedelta(days=today.weekday())  # Monday
-    end_of_week = start_of_week + timedelta(days=6)  # Sunday
+    from django.utils.timezone import now
+    from datetime import timedelta, datetime
+    from .models import WorkoutSchedule
 
-    # Query workouts for the week
-    week_workouts = WorkoutSchedule.objects.filter(
-        user=user, date__range=[start_of_week, end_of_week]
-    ).order_by('date', 'time')
+    # Get the 'week_start' parameter from the request
+    week_start_str = request.GET.get('week_start')
+    if week_start_str:
+        try:
+            week_start = datetime.strptime(week_start_str, '%Y-%m-%d').date()
+        except ValueError:
+            week_start = now().date()
+    else:
+        week_start = now().date()
 
-    # Organize workouts by day
-    weekly_schedule = {start_of_week + timedelta(days=i): [] for i in range(7)}
-    for workout in week_workouts:
-        weekly_schedule[workout.date].append(workout)
+    # Calculate the week's Monday
+    # Adjust for weeks that may start on different days (e.g., if the system uses Sunday as the first day of the week)
+    weekday = week_start.weekday()  # 0 = Monday, 6 = Sunday
+    monday = week_start - timedelta(days=weekday)
+
+    # Calculate Sunday
+    sunday = monday + timedelta(days=6)
+
+    # Filter schedules for the selected week
+    schedules = WorkoutSchedule.objects.filter(date__range=[monday, sunday], user=request.user)
+
+    # Organize schedules by day
+    weekly_schedule = {day: [] for day in ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday']}
+    for schedule in schedules:
+        weekday_name = schedule.date.strftime('%A')  # Get the name of the day
+        weekly_schedule[weekday_name].append(schedule)
 
     return render(request, 'schedule/weekly_schedule.html', {
         'weekly_schedule': weekly_schedule,
-        'start_of_week': start_of_week,
-        'end_of_week': end_of_week,
+        'current_week_start': monday,  # Pass the start of the current week
     })
+
 
 
 def measurement_tracker_view(request):

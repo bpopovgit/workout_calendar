@@ -15,7 +15,7 @@
     <!-- Select2 CSS -->
     <link href="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.13/css/select2.min.css" rel="stylesheet" />
 </head>
-<body>
+<body class="d-flex flex-column min-vh-100">
     <!-- Navigation Bar -->
     <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
         <div class="container">
@@ -46,11 +46,11 @@
     </nav>
 
     <!-- Main Content -->
-    <div class="container mt-5">
+    <main class="container flex-grow-1 mt-5">
         {% block content %}
         <!-- Child templates will insert content here -->
         {% endblock %}
-    </div>
+    </main>
 
     <!-- Footer -->
     <footer class="bg-dark text-white text-center py-3 mt-5">
