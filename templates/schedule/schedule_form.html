@@ -1,33 +1,52 @@
 {% extends 'base.html' %}
+{% load crispy_forms_tags %}
+
+{% block title %}Add Workout to Schedule{% endblock %}
 
 {% block content %}
-<h1>Add Workout to Schedule</h1>
-<form method="post" class="mt-4">
-    {% csrf_token %}
-    {{ form.non_field_errors }}
-    <div class="mb-3">
-        <label for="id_workout" class="form-label">Workout</label>
-        {{ form.workout }}
-    </div>
-    <div class="mb-3">
-        <label for="id_date" class="form-label">Date</label>
-        {{ form.date }}
-        {% if form.date.help_text %}
-            <div class="form-text">{{ form.date.help_text }}</div>
-        {% endif %}
-    </div>
-    <div class="mb-3">
-        <label for="id_time" class="form-label">Time</label>
-        {{ form.time }}
-    </div>
-    <div class="mb-3">
-        <label for="id_description" class="form-label">Description</label>
-        {{ form.description }}
-        {% if form.description.help_text %}
-            <div class="form-text">{{ form.description.help_text }}</div>
-        {% endif %}
-    </div>
-    <button type="submit" class="btn btn-primary">Save</button>
-    <a href="{% url 'schedule:schedule_list' %}" class="btn btn-secondary">Cancel</a>
-</form>
+<div class="container mt-5">
+    <h1 class="text-center mb-4">Add Workout to Schedule</h1>
+
+    <form method="post" class="p-4 shadow rounded bg-light">
+        {% csrf_token %}
+        {{ form|crispy }}
+
+        <!-- Buttons -->
+        <div class="text-center mt-4">
+            <button type="submit" class="btn btn-primary me-2">Save</button>
+            <a href="{% url 'schedule:schedule_list' %}" class="btn btn-secondary">Cancel</a>
+        </div>
+    </form>
+</div>
+
+<style>
+    body {
+        background-color: #f8f9fa; /* Light gray background for a modern look */
+    }
+
+    form {
+        max-width: 600px;
+        margin: auto;
+    }
+
+    h1 {
+        font-size: 1.8rem;
+        font-weight: bold;
+    }
+
+    .form-label {
+        font-weight: bold;
+        color: #495057;
+    }
+
+    .btn-primary {
+        background-color: #007bff;
+        border-color: #007bff;
+    }
+
+    .btn-secondary {
+        background-color: #6c757d;
+        border-color: #6c757d;
+    }
+</style>
 {% endblock %}

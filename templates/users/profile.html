@@ -34,7 +34,7 @@
 <ul>
     {% for goal in active_goals %}
         <li>
-            <strong>{{ goal.name }}</strong>: {{ goal.progress }}/{{ goal.target }} 
+            <strong>{{ goal.name }}</strong>: {{ goal.progress }}/{{ goal.target }}
             ({{ goal.percentage_complete|floatformat:2 }}%)
             {% if goal.due_date %}
                 <p>Due by: {{ goal.due_date }}</p>

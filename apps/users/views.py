@@ -1,4 +1,4 @@
-from datetime import date, timedelta
+from datetime import date, timedelta, datetime
 from django.db.models import Sum
 from django.views.generic.detail import DetailView
 from django.views.generic.edit import UpdateView
@@ -12,6 +12,7 @@ from django.shortcuts import render
 from django.contrib.auth.decorators import login_required
 from django.http import Http404
 from ..progress.models import WorkoutLog, Goal
+from ..schedule.models import WorkoutSchedule
 from ..workouts.models import Workout
 
 
@@ -70,3 +71,26 @@ def profile_view(request):
         'hours_spent': hours_spent,
         'active_goals': active_goals,
     })
+
+
+# Example logic for fetching upcoming workouts
+def get_upcoming_workouts(user, limit=5):
+    today = datetime.now().date()
+    return WorkoutSchedule.objects.filter(user=user, date__gte=today).order_by('date')[:limit]
+
+
+def user_profile_view(request):
+    user = request.user
+
+    # Upcoming workouts
+    upcoming_workouts = get_upcoming_workouts(user)
+
+    # Other sections (e.g., recent workouts, progress)
+    # Assuming similar logic is already implemented
+
+    context = {
+        'user': user,
+        'upcoming_workouts': upcoming_workouts,
+        # Add other sections (recent_workouts, progress, etc.)
+    }
+    return render(request, 'users/profile.html', context)
