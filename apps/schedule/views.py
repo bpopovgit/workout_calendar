@@ -3,6 +3,9 @@ from django.contrib.auth.mixins import LoginRequiredMixin
 from django.urls import reverse_lazy
 from .models import WorkoutSchedule
 from .forms import WorkoutScheduleForm
+from django.shortcuts import render
+from django.utils.timezone import now, timedelta
+from .models import WorkoutSchedule
 
 
 class WorkoutScheduleListView(LoginRequiredMixin, ListView):
@@ -23,3 +26,26 @@ class WorkoutScheduleCreateView(LoginRequiredMixin, CreateView):
     def form_valid(self, form):
         form.instance.user = self.request.user
         return super().form_valid(form)
+
+
+def weekly_schedule_view(request):
+    user = request.user
+    today = now().date()
+    start_of_week = today - timedelta(days=today.weekday())  # Monday
+    end_of_week = start_of_week + timedelta(days=6)  # Sunday
+
+    # Query workouts for the week
+    week_workouts = WorkoutSchedule.objects.filter(
+        user=user, date__range=[start_of_week, end_of_week]
+    ).order_by('date', 'time')
+
+    # Organize workouts by day
+    weekly_schedule = {start_of_week + timedelta(days=i): [] for i in range(7)}
+    for workout in week_workouts:
+        weekly_schedule[workout.date].append(workout)
+
+    return render(request, 'schedule/weekly_schedule.html', {
+        'weekly_schedule': weekly_schedule,
+        'start_of_week': start_of_week,
+        'end_of_week': end_of_week,
+    })

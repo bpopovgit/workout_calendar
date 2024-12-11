@@ -1,0 +1,37 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<h1>Weekly Workout Schedule</h1>
+<div class="table-responsive">
+    <table class="table table-bordered text-center">
+        <thead>
+            <tr>
+                <th>Monday</th>
+                <th>Tuesday</th>
+                <th>Wednesday</th>
+                <th>Thursday</th>
+                <th>Friday</th>
+                <th>Saturday</th>
+                <th>Sunday</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                {% for day, workouts in weekly_schedule.items %}
+                <td>
+                    {% if workouts %}
+                        {% for workout in workouts %}
+                            <p><strong>{{ workout.workout.name }}</strong></p>
+                            <p>{{ workout.description }}</p>
+                            <p>{{ workout.time }}</p>
+                        {% endfor %}
+                    {% else %}
+                        <p>Rest</p>
+                    {% endif %}
+                </td>
+                {% endfor %}
+            </tr>
+        </tbody>
+    </table>
+</div>
+{% endblock %}

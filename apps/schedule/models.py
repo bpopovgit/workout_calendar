@@ -8,6 +8,7 @@ class WorkoutSchedule(models.Model):
     workout = models.ForeignKey(Workout, on_delete=models.CASCADE, related_name="schedules")
     date = models.DateField()
     time = models.TimeField()
+    description = models.TextField(blank=True, null=True)  # Optional field for workout details
 
     def __str__(self):
         return f"{self.workout.name} on {self.date} at {self.time}"

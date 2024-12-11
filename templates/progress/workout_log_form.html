@@ -1,23 +1,21 @@
 {% extends 'base.html' %}
 
 {% block content %}
-<h1>Add Workout Log</h1>
-<form method="post" class="mt-4">
-    {% csrf_token %}
-    
-    <!-- Render the form -->
-    {{ form.as_p }}
-    
-    <!-- Check if the 'workout' field has any options -->
-    {% if form.fields.workout.queryset.count == 0 %}
-        <p class="text-danger">
-            You haven't created any workouts yet. 
-            <a href="{% url 'workouts:create' %}" class="text-primary">Create a workout</a> first.
-        </p>
-    {% endif %}
-    
-    <!-- Form buttons -->
-    <button type="submit" class="btn btn-primary">Save Workout Log</button>
-    <a href="{% url 'progress:log_list' %}" class="btn btn-secondary">Cancel</a>
-</form>
+{% if form.fields.workout.queryset.count == 0 %}
+    <!-- Message when no workouts are available -->
+    <div class="alert alert-warning text-center mt-4" role="alert">
+        <h3>No Workouts Available</h3>
+        <p>You haven't created any workouts yet.</p>
+        <a href="{% url 'workouts:create' %}" class="btn btn-primary">Create a Workout</a>
+    </div>
+{% else %}  
+    <!-- Form to add a workout log -->
+    <h1>Add Workout Log</h1>
+    <form method="post" class="mt-4">
+        {% csrf_token %}
+        {{ form.as_p }}
+        <button type="submit" class="btn btn-primary">Save Workout Log</button>
+        <a href="{% url 'progress:log_list' %}" class="btn btn-secondary">Cancel</a>
+    </form>
+{% endif %}
 {% endblock %}
