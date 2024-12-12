@@ -6,11 +6,20 @@ from apps.workouts.models import Workout
 class WorkoutLog(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE)
     workout = models.ForeignKey(Workout, on_delete=models.CASCADE)
-    date_completed = models.DateTimeField()  # Removed `editable=False`
+    date_completed = models.DateTimeField()  # Optional: Consider adding `auto_now_add=True` for automatic timestamps
     notes = models.TextField(blank=True, null=True)
+    intensity = models.CharField(
+        max_length=50,
+        choices=[
+            ('Low', 'Low'),
+            ('Moderate', 'Moderate'),
+            ('High', 'High'),
+        ],
+        default='Moderate'  # Set the default to 'Moderate'
+    )
 
     def __str__(self):
-        return f"{self.workout.name} - {self.date_completed}"
+        return f"{self.workout.name} ({self.date_completed})"
 
 
 class Progress(models.Model):

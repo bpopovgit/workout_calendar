@@ -26,11 +26,20 @@
 
 <!-- Recent Workouts Section -->
 <h2>Recent Workouts</h2>
-<ul>
+<ul class="list-group">
     {% for log in recent_workouts %}
-        <li>{{ log.date_completed }}: {{ log.workout.name }} ({{ log.workout.intensity }})</li>
+        <li class="list-group-item">
+            <strong>{{ log.workout.name }}</strong>
+            <p>Date Completed: {{ log.date_completed }}</p>
+            <p>Intensity: 
+                <span class="{% if log.workout.intensity == 'High' %}badge bg-danger{% elif log.workout.intensity == 'Moderate' %}badge bg-warning text-dark{% else %}badge bg-success{% endif %}">
+                    {{ log.workout.intensity }}
+                </span>
+            </p>
+            <p>{{ log.notes|default:"No notes provided" }}</p>
+        </li>
     {% empty %}
-        <p>No recent workouts.</p>
+        <p class="text-muted">No recent workouts.</p>
     {% endfor %}
 </ul>
 

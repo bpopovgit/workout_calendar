@@ -69,10 +69,24 @@ def get_upcoming_workouts(user, limit=5):
 
 def user_profile_view(request):
     user = request.user
+
+    # Existing logic for upcoming workouts
     upcoming_workouts = get_upcoming_workouts(user)
+
+    # Add logic for recent workouts
+    recent_workouts = get_recent_workouts(user)
 
     context = {
         'upcoming_workouts': upcoming_workouts,
-        # Include other context variables (recent_workouts, progress, etc.)
+        'recent_workouts': recent_workouts,
+        # Add other context variables like progress, goals, etc.
     }
     return render(request, 'users/profile.html', context)
+
+
+def get_recent_workouts(user, limit=5):
+    """Fetches the most recent completed workouts."""
+    return (
+        WorkoutLog.objects.filter(user=user)
+        .order_by('-date_completed')[:limit]  # Sort by the latest completion date
+    )
