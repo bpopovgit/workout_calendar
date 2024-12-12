@@ -2,12 +2,14 @@ from calendar import monthrange
 from datetime import datetime, timedelta, date
 
 from django.contrib.auth.decorators import login_required
+from django.http import JsonResponse
+from django.template.loader import render_to_string
 from django.views.generic import ListView, CreateView
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.urls import reverse_lazy
-from .forms import WorkoutScheduleForm
+from .forms import WorkoutScheduleForm, EditWorkoutScheduleForm
 from .models import WorkoutSchedule
-from django.shortcuts import render, redirect
+from django.shortcuts import render, redirect, get_object_or_404
 from django.utils.timezone import now
 from .models import Measurement
 from .forms import MeasurementForm
@@ -95,3 +97,36 @@ def measurement_tracker_view(request):
         form = MeasurementForm(instance=measurement)
 
     return render(request, 'schedule/measurement_tracker.html', {'form': form})
+
+
+@login_required
+def edit_workout_view(request, workout_id):
+    # Retrieve the workout or return 404 if not found
+    workout = get_object_or_404(WorkoutSchedule, id=workout_id, user=request.user)
+
+    if request.method == 'POST':
+        # Handle form submission
+        form = EditWorkoutScheduleForm(request.POST, instance=workout)
+        if form.is_valid():
+            form.save()
+            return JsonResponse({'status': 'success', 'message': 'Workout updated successfully!'})
+        else:
+            # Return form errors if invalid
+            return JsonResponse({'status': 'error', 'errors': form.errors})
+
+    # Handle GET request: Render the form and return it as part of the response
+    form_html = render(request, 'schedule/edit_form.html', {
+        'form': EditWorkoutScheduleForm(instance=workout),
+    }).content.decode()
+
+    return JsonResponse({'status': 'success', 'form': form_html})
+
+
+@login_required
+def delete_workout_view(request, workout_id):
+    workout = get_object_or_404(WorkoutSchedule, id=workout_id, user=request.user)
+    if request.method == 'POST':
+        workout.delete()
+        return JsonResponse({'status': 'success', 'message': 'Workout deleted successfully!'})
+
+    return JsonResponse({'status': 'error', 'message': 'Invalid request.'})

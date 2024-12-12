@@ -11,9 +11,12 @@
 
     <!-- Optional: Custom CSS -->
     <link href="{% static 'css/styles.css' %}" rel="stylesheet">
-    
+
     <!-- Select2 CSS -->
     <link href="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.13/css/select2.min.css" rel="stylesheet" />
+
+    <!-- Block for additional stylesheets -->
+    {% block head %}{% endblock %}
 </head>
 <body class="d-flex flex-column min-vh-100">
     <!-- Navigation Bar -->

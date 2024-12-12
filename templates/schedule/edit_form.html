@@ -1,0 +1,5 @@
+{% load crispy_forms_filters %}
+<form id="editWorkoutForm" class="p-3">
+    {{ form|crispy }}
+    <input type="hidden" name="csrfmiddlewaretoken" value="{{ csrf_token }}">
+</form>
