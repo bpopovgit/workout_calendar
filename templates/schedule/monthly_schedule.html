@@ -49,7 +49,7 @@
                 <tr>
                     {% for day in week %}
                         {% if day %}
-                            <td class="{% if day in monthly_schedule %}bg-primary text-white{% else %}bg-light{% endif %}">
+                            <td class="{% if day in monthly_schedule %}bg-warm-red{% else %}bg-light{% endif %}">
                                 <strong>{{ day }}</strong>
                                 {% if day in monthly_schedule %}
                                     {% for workout in monthly_schedule|get_item:day %}

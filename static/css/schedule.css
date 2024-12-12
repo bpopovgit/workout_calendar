@@ -1,17 +1,137 @@
-.modal-body {
-    padding: 20px;
+/* Root Variables for Warm Theme */
+:root {
+    --warm-primary: #D98834; /* Warm orange */
+    --warm-secondary: #F7C59F; /* Light beige */
+    --warm-dark: #4A2E2B; /* Dark brown */
+    --warm-light: #FFF4E6; /* Cream */
+    --warm-accent: #E4A672; /* Peachy accent */
 }
 
-#editWorkoutForm .form-control {
-    margin-bottom: 10px;
+.btn-warning {
+    background-color: #ffcc80; /* Warm orange for edit button */
+    border-color: #ffcc80;
 }
 
+.btn-warning:hover {
+    background-color: #e6b566; /* Slightly darker warm orange on hover */
+}
+
+.bg-warm-red {
+    background-color: #F8552C; /* Warm red for calendar cells with workouts */
+    color: #ffffff; /* White text for contrast */
+    font-weight: bold;
+}
+
+/* Calendar Table */
+.calendar-table {
+    border-collapse: collapse;
+    border: 1px solid var(--warm-dark);
+    background-color: var(--warm-light);
+}
+
+.calendar-table th {
+    background-color: var(--warm-dark);
+    color: var(--warm-secondary);
+    padding: 10px;
+    font-weight: bold;
+}
+
+.calendar-table td {
+    border: 1px solid var(--warm-dark);
+    padding: 10px;
+    vertical-align: top;
+    height: 100px;
+    background-color: var(--warm-light);
+}
+
+.calendar-table td.bg-primary {
+    background-color: #f7d4d3; /* Light red for the calendar cell */
+    color: #d9534f; /* Darker red for the number and text */
+    font-weight: bold;
+}
+
+.calendar-table td.bg-light {
+    background-color: var(--warm-secondary);
+    color: var(--warm-dark);
+}
+
+/* Optional: Hover effect for workout days */
+.calendar-table td.bg-primary:hover {
+    background-color: var(--warm-primary); /* Slightly darker tone for hover */
+    color: var(--warm-light);
+}
+
+/* Buttons */
+.calendar-table .btn-warning {
+    background-color: var(--warm-accent);
+    border-color: var(--warm-accent);
+    color: var(--warm-dark);
+}
+
+.calendar-table .btn-warning:hover {
+    background-color: var(--warm-dark);
+    color: var(--warm-light);
+}
+
+.btn-danger {
+    background-color: #dc3545; /* Bootstrap default delete button red */
+    border-color: #dc3545;
+}
+
+.calendar-table .btn-danger:hover {
+    background-color: #B52A2A; /* Darker red */
+    border-color: #B52A2A;
+}
+
+/* Modal */
+.modal-content {
+    border-radius: 8px;
+    border: 1px solid var(--warm-dark);
+    background-color: var(--warm-light);
+    color: var(--warm-dark);
+}
+
+.modal-header {
+    background-color: var(--warm-primary);
+    color: var(--warm-light);
+    border-bottom: 1px solid var(--warm-dark);
+}
+
+.modal-footer {
+    background-color: var(--warm-secondary);
+    border-top: 1px solid var(--warm-dark);
+}
+
+/* Add to Schedule Button */
 .btn-primary {
-    background-color: #007bff;
-    border-color: #007bff;
+    background-color: var(--warm-primary);
+    border-color: var(--warm-primary);
+}
+
+.btn-primary:hover {
+    background-color: var(--warm-accent);
+    border-color: var(--warm-accent);
 }
 
 .btn-secondary {
-    background-color: #6c757d;
-    border-color: #6c757d;
+    background-color: var(--warm-dark);
+    border-color: var(--warm-dark);
+}
+
+.btn-secondary:hover {
+    background-color: var(--warm-primary);
+    border-color: var(--warm-primary);
+}
+
+.workout-item {
+    background-color: #d98834 !important; /* Replace warm peach #FFA273 with #d98834 */
+    color: #fff; /* Ensure text remains white for contrast */
+    padding: 10px;
+    border-radius: 5px;
+    margin: 5px 0;
+}
+
+.workout-item:hover {
+    background-color: #c8742e; /* Slightly darker shade of #d98834 on hover */
+    color: #fff; /* Keep text white */
 }
