@@ -10,7 +10,7 @@ from django.contrib.auth.forms import UserCreationForm
 from django.views.generic.edit import CreateView
 from django.shortcuts import render
 from django.contrib.auth.decorators import login_required
-from django.http import Http404
+from django.http import Http404, JsonResponse
 from ..progress.models import WorkoutLog, Goal
 from ..schedule.models import WorkoutSchedule
 from ..workouts.models import Workout
@@ -90,3 +90,38 @@ def get_recent_workouts(user, limit=5):
         WorkoutLog.objects.filter(user=user)
         .order_by('-date_completed')[:limit]  # Sort by the latest completion date
     )
+
+
+def get_workout_data(request):
+    user = request.user
+    today = datetime.now().date()
+
+    # Fetch recent workouts
+    recent_workouts = WorkoutLog.objects.filter(user=user).order_by('-date_completed')[:5]
+
+    # Fetch upcoming workouts
+    upcoming_workouts = WorkoutSchedule.objects.filter(user=user, date__gte=today).order_by('date', 'time')[:5]
+
+    # Serialize data for Chart.js
+    recent_data = [
+        {
+            "label": workout.workout.name,
+            "date": workout.date_completed.strftime('%Y-%m-%d'),
+            "intensity": workout.intensity,
+        }
+        for workout in recent_workouts
+    ]
+
+    upcoming_data = [
+        {
+            "label": workout.workout.name,
+            "date": workout.date.strftime('%Y-%m-%d'),
+            "intensity": workout.intensity,
+        }
+        for workout in upcoming_workouts
+    ]
+
+    return JsonResponse({
+        "recent_workouts": recent_data,
+        "upcoming_workouts": upcoming_data,
+    })
