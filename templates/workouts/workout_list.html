@@ -1,5 +1,7 @@
 {% extends 'base.html' %}
+{% load duration_filters %}
 {% load static %}
+{%  load custom_tags %}
 
 {% block head %}
     <link rel="stylesheet" href="{% static 'css/workouts.css' %}">
@@ -13,7 +15,7 @@
         <div class="card mb-3">
             <div class="card-body">
                 <h3 class="card-title">{{ workout.name }}</h3>
-                <p><strong>Duration:</strong> {{ workout.duration }}</p>
+                <p><strong>Duration:</strong> {{ workout.duration|format_duration }}</p>
                 <p><strong>Intensity:</strong> {{ workout.get_intensity_display }}</p>
                 
                 <h5>Exercises:</h5>

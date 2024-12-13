@@ -1,8 +1,8 @@
+from datetime import timedelta
 from crispy_forms.helper import FormHelper
 from crispy_forms.layout import Submit, Layout, Column, Row
 from django import forms
 from django_select2.forms import Select2MultipleWidget
-
 from .models import Workout, Exercise
 
 
@@ -11,6 +11,11 @@ class WorkoutForm(forms.ModelForm):
         queryset=Exercise.objects.all(),
         widget=forms.SelectMultiple(attrs={'class': 'form-control select2'}),
         label="Select Exercises",
+    )
+    # Override duration field to accept input in minutes
+    duration = forms.IntegerField(
+        widget=forms.NumberInput(attrs={'class': 'form-control', 'placeholder': 'Enter duration in minutes'}),
+        label="Duration (in minutes)",
     )
 
     class Meta:
@@ -35,3 +40,8 @@ class WorkoutForm(forms.ModelForm):
         )
         self.helper.add_input(Submit('submit', 'Save Workout', css_class='btn-primary'))
 
+    def clean_duration(self):
+        # Convert minutes to seconds before saving to the database
+        duration_in_minutes = self.cleaned_data['duration']
+        return timedelta(minutes=duration_in_minutes) # Returns a timedelta object,
+        # which ensures that the input is correctly formatted for Django's DurationField.
