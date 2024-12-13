@@ -31,7 +31,7 @@
                     {% if user.is_authenticated %}
                         <li class="nav-item"><a class="nav-link" href="{% url 'users:profile' %}">Profile</a></li>
                         <li class="nav-item"><a class="nav-link" href="{% url 'workouts:list' %}">Workouts</a></li>
-                        <li class="nav-item"><a class="nav-link" href="{% url 'progress:log_list' %}">Workout Logs</a></li>
+                        <li class="nav-item"><a class="nav-link" href="{% url 'goals:goal_list' %}">Goals</a></li>
                         <li class="nav-item"><a class="nav-link" href="{% url 'schedule:schedule_list' %}">Schedule</a></li>
                         <li class="nav-item">
                             <form method="post" action="{% url 'logout' %}" class="d-inline">

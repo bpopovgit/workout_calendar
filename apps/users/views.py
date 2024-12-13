@@ -11,7 +11,7 @@ from django.views.generic.edit import CreateView
 from django.shortcuts import render
 from django.contrib.auth.decorators import login_required
 from django.http import Http404, JsonResponse
-from ..progress.models import WorkoutLog, Goal
+from ..goals.models import WorkoutLog, Goal
 from ..schedule.models import WorkoutSchedule
 from ..workouts.models import Workout
 
@@ -79,7 +79,7 @@ def user_profile_view(request):
     context = {
         'upcoming_workouts': upcoming_workouts,
         'recent_workouts': recent_workouts,
-        # Add other context variables like progress, goals, etc.
+        # Add other context variables like goals, goals, etc.
     }
     return render(request, 'users/profile.html', context)
 

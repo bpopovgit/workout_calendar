@@ -39,13 +39,13 @@
                     <p>Due by: {{ goal.due_date }}</p>
                     {% endif %}
                 </div>
-                <a href="{% url 'progress:update_goal' goal.id %}" class="btn btn-link">Edit</a>
+                <a href="{% url 'goals:update_goal' goal.id %}" class="btn btn-link">Edit</a>
             </li>
             {% empty %}
             <p class="text-muted">No active goals. Set a new one today!</p>
             {% endfor %}
         </ul>
-        <a href="{% url 'progress:create_goal' %}" class="btn btn-primary mt-3">Add a New Goal</a>
+        <a href="{% url 'goals:create_goal' %}" class="btn btn-primary mt-3">Add a New Goal</a>
     </div>
 
     <!-- Workout History Section -->

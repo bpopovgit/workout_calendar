@@ -15,7 +15,7 @@
         {% csrf_token %}
         {{ form.as_p }}
         <button type="submit" class="btn btn-primary">Save Workout Log</button>
-        <a href="{% url 'progress:log_list' %}" class="btn btn-secondary">Cancel</a>
+        <a href="{% url 'goals:log_list' %}" class="btn btn-secondary">Cancel</a>
     </form>
 {% endif %}
 {% endblock %}

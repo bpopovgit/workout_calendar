@@ -4,9 +4,9 @@ from apps.workouts.models import Workout
 
 
 class WorkoutLog(models.Model):
-    user = models.ForeignKey(User, on_delete=models.CASCADE)
+    user = models.ForeignKey(User, on_delete=models.CASCADE, related_name="workout_logs")
     workout = models.ForeignKey(Workout, on_delete=models.CASCADE)
-    date_completed = models.DateTimeField()  # Optional: Consider adding `auto_now_add=True` for automatic timestamps
+    date_completed = models.DateTimeField()
     notes = models.TextField(blank=True, null=True)
     intensity = models.CharField(
         max_length=50,
@@ -15,7 +15,7 @@ class WorkoutLog(models.Model):
             ('Moderate', 'Moderate'),
             ('High', 'High'),
         ],
-        default='Moderate'  # Set the default to 'Moderate'
+        default='Moderate'
     )
 
     def __str__(self):
@@ -23,7 +23,7 @@ class WorkoutLog(models.Model):
 
 
 class Progress(models.Model):
-    user = models.OneToOneField(User, on_delete=models.CASCADE, related_name="progress")
+    user = models.OneToOneField(User, on_delete=models.CASCADE, related_name="goals")
     total_workouts_completed = models.PositiveIntegerField(default=0)
     total_duration = models.DurationField(default="0:00:00")
 
@@ -32,10 +32,10 @@ class Progress(models.Model):
 
 
 class Goal(models.Model):
-    user = models.ForeignKey(User, on_delete=models.CASCADE, related_name='goals')
+    user = models.ForeignKey(User, on_delete=models.CASCADE, related_name='user_goals')  # Updated related_name
     name = models.CharField(max_length=255)
-    target = models.FloatField()  # e.g., number of workouts, hours, distance
-    progress = models.FloatField(default=0)  # Current progress toward the target
+    target = models.FloatField()
+    progress = models.FloatField(default=0)
     is_active = models.BooleanField(default=True)
     created_at = models.DateTimeField(auto_now_add=True)
     due_date = models.DateField(null=True, blank=True)

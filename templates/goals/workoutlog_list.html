@@ -9,8 +9,8 @@
         Notes: {{ log.notes|default:"No notes provided" }}
     </li>
     {% empty %}
-    <p>You have no workout logs yet. <a href="{% url 'progress:log_add' %}">Add a workout log</a>.</p>
+    <p>You have no workout logs yet. <a href="{% url 'goals:log_add' %}">Add a workout log</a>.</p>
     {% endfor %}
 </ul>
-<a href="{% url 'progress:log_add' %}" class="btn btn-primary mt-3">Add Workout Log</a>
+<a href="{% url 'goals:log_add' %}" class="btn btn-primary mt-3">Add Workout Log</a>
 {% endblock %}

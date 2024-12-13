@@ -1,0 +1,53 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<div class="container mt-4">
+    <h1 class="text-center">Your Goals</h1>
+
+    <!-- Motivational Quote -->
+    <div class="alert alert-warning text-center">
+        <em>{{ quote }}</em>
+    </div>
+
+    <!-- Create New Goal Button -->
+    <div class="text-center my-4">
+        <a href="{% url 'goals:create_goal' %}" class="btn btn-primary">Create New Goal</a>
+    </div>
+
+    <!-- Goals List -->
+    {% if goals %}
+    <div class="row">
+        {% for goal in goals %}
+        <div class="col-md-6 mb-4">
+            <div class="card shadow-sm">
+                <div class="card-body">
+                    <h5 class="card-title">{{ goal.name }}</h5>
+                    <p class="card-text">
+                        <strong>Target:</strong> {{ goal.target }}<br>
+                        <strong>Progress:</strong> {{ goal.progress }}<br>
+                        <strong>Due Date:</strong> {{ goal.due_date|date:"M d, Y" }}
+                    </p>
+                    <div class="progress mb-3">
+                        <div class="progress-bar" role="progressbar"
+                             style="width: {{ goal.percentage_complete }}%;"
+                             aria-valuenow="{{ goal.percentage_complete }}" aria-valuemin="0" aria-valuemax="100">
+                            {{ goal.percentage_complete|floatformat:0 }}%
+                        </div>
+                    </div>
+                    <div class="d-flex justify-content-between">
+                        <a href="{% url 'goals:edit_goal' goal.id %}" class="btn btn-warning btn-sm">Edit</a>
+                        <form method="post" action="{% url 'goals:delete_goal' goal.id %}" style="display: inline;">
+                            {% csrf_token %}
+                            <button type="submit" class="btn btn-danger btn-sm">Delete</button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+        {% endfor %}
+    </div>
+    {% else %}
+    <p class="text-center">You have no active goals. <a href="{% url 'goals:create_goal' %}">Create one now!</a></p>
+    {% endif %}
+</div>
+{% endblock %}

@@ -8,7 +8,7 @@ from django.urls import reverse_lazy
 
 from .forms import WorkoutForm
 from .models import Workout
-from ..progress.models import WorkoutLog
+from ..goals.models import WorkoutLog
 from django.db.models import Q
 from django.core.paginator import Paginator
 

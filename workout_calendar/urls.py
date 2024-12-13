@@ -11,7 +11,7 @@ urlpatterns = [
     path('users/', include('apps.users.urls')),  # Users app
     path('workouts/', include('apps.workouts.urls')),  # Workouts app
     path('schedule/', include('apps.schedule.urls')),  # Schedule app
-    path('progress/', include('apps.progress.urls')),  # Progress app
+    path('goals/', include('apps.goals.urls')),  # Progress app
     path('accounts/', include('django.contrib.auth.urls')),  # Authentication URLs
 
 ]

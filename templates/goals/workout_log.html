@@ -7,5 +7,5 @@
     <li>{{ log.date_completed }}: {{ log.workout.name }} - {{ log.notes }}</li>
     {% endfor %}
 </ul>
-<a href="{% url 'progress:log_add' %}" class="btn btn-primary">Log a Workout</a>
+<a href="{% url 'goals:log_add' %}" class="btn btn-primary">Log a Workout</a>
 {% endblock %}

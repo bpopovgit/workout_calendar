@@ -41,7 +41,7 @@ INSTALLED_APPS = [
     'apps.users',
     'apps.workouts',
     'apps.schedule',
-    'apps.progress',
+    'apps.goals',
     'crispy_forms',
     'crispy_bootstrap5',
 ]
