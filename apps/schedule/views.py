@@ -25,20 +25,16 @@ def schedule_view(request):
     # Get month_start from query params, default to the current month
     month_start = request.GET.get('month_start', datetime.now().strftime('%Y-%m'))
     try:
-        # Convert month_start to a valid date
         start_date = datetime.strptime(month_start + '-01', '%Y-%m-%d').date()
     except ValueError:
-        # Default to the current month if the input is invalid
         start_date = datetime.now().replace(day=1).date()
 
-    # Calculate the first and last days of the month
     _, num_days = calendar.monthrange(start_date.year, start_date.month)
     end_date = start_date.replace(day=num_days)
 
-    # Fetch workouts scheduled for the month
+    # Fetch only the schedules for the logged-in user
     workouts = user.schedules.filter(date__range=[start_date, end_date])
 
-    # Organize workouts by day
     monthly_schedule = {}
     for workout in workouts:
         day = workout.date.day
@@ -46,16 +42,15 @@ def schedule_view(request):
             monthly_schedule[day] = []
         monthly_schedule[day].append(workout)
 
-    # Generate dropdown choices for the past 5 years and the next 5 years
     today = datetime.now()
     month_choices = [
-        (today.replace(year=today.year + offset, month=month, day=1))
-        for offset in range(-5, 6)  # From -5 years to +5 years
+        today.replace(year=today.year + offset, month=month, day=1)
+        for offset in range(-5, 6)
         for month in range(1, 13)
     ]
 
     context = {
-        'current_month_start': start_date,  # Pass the correctly calculated start_date
+        'current_month_start': start_date,
         'monthly_schedule': monthly_schedule,
         'weeks': [
             [days for days in range(1, num_days + 1)][i: i + 7]
@@ -71,6 +66,11 @@ class WorkoutScheduleCreateView(LoginRequiredMixin, CreateView):
     form_class = WorkoutScheduleForm
     template_name = 'schedule/schedule_form.html'
     success_url = reverse_lazy('schedule:schedule_list')
+
+    def get_form_kwargs(self):
+        kwargs = super().get_form_kwargs()
+        kwargs['user'] = self.request.user  # Pass the logged-in user to the form
+        return kwargs
 
     def form_valid(self, form):
         form.instance.user = self.request.user
@@ -101,20 +101,15 @@ def measurement_tracker_view(request):
 
 @login_required
 def edit_workout_view(request, workout_id):
-    # Retrieve the workout or return 404 if not found
     workout = get_object_or_404(WorkoutSchedule, id=workout_id, user=request.user)
 
     if request.method == 'POST':
-        # Handle form submission
         form = EditWorkoutScheduleForm(request.POST, instance=workout)
         if form.is_valid():
             form.save()
             return JsonResponse({'status': 'success', 'message': 'Workout updated successfully!'})
-        else:
-            # Return form errors if invalid
-            return JsonResponse({'status': 'error', 'errors': form.errors})
+        return JsonResponse({'status': 'error', 'errors': form.errors})
 
-    # Handle GET request: Render the form and return it as part of the response
     form_html = render(request, 'schedule/edit_form.html', {
         'form': EditWorkoutScheduleForm(instance=workout),
     }).content.decode()

@@ -5,12 +5,19 @@ from .models import Measurement
 from crispy_forms.helper import FormHelper
 from crispy_forms.layout import Submit, Layout
 
+from ..workouts.models import Workout
+
 
 class WorkoutScheduleForm(forms.ModelForm):
+    workout = forms.ModelChoiceField(
+        queryset=Workout.objects.none(),  # Default queryset is empty
+        label="Workout",
+        widget=forms.Select(attrs={'class': 'form-control'}),
+    )
+
     class Meta:
         model = WorkoutSchedule
-        fields = ['workout', 'date', 'time', 'description']  # Include the description field
-
+        fields = ['workout', 'date', 'time', 'description']
         widgets = {
             'date': forms.DateInput(attrs={'type': 'date'}),
             'time': forms.TimeInput(attrs={'type': 'time'}),
@@ -24,7 +31,12 @@ class WorkoutScheduleForm(forms.ModelForm):
         }
 
     def __init__(self, *args, **kwargs):
+        user = kwargs.pop('user', None)  # Retrieve the logged-in user
         super().__init__(*args, **kwargs)
+        if user:
+            # Filter workouts to only those created by the logged-in user
+            self.fields['workout'].queryset = Workout.objects.filter(user=user)
+
         self.helper = FormHelper()
         self.helper.form_method = 'post'
         self.helper.add_input(Submit('submit', 'Save', css_class='btn-primary'))
