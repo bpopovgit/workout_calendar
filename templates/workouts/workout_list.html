@@ -1,47 +1,45 @@
 {% extends 'base.html' %}
+{% load static %}
+
+{% block head %}
+    <link rel="stylesheet" href="{% static 'css/workouts.css' %}">
+{% endblock %}
 
 {% block content %}
 <div class="container mt-4">
-    <h1 class="text-center mb-4">Your Workouts</h1>
-    <div class="text-end mb-3">
-        <a href="{% url 'workouts:create' %}" class="btn btn-success">Create New Workout</a>
-    </div>
+    <h1 class="text-center">Your Workouts</h1>
+    
+    {% for workout in workouts %}
+        <div class="card mb-3">
+            <div class="card-body">
+                <h3 class="card-title">{{ workout.name }}</h3>
+                <p><strong>Duration:</strong> {{ workout.duration }}</p>
+                <p><strong>Intensity:</strong> {{ workout.get_intensity_display }}</p>
+                
+                <h5>Exercises:</h5>
+                <ul class="list-group">
+                    {% for exercise in workout.exercises.all %}
+                        <li class="list-group-item">
+                            <strong>{{ exercise.name }}</strong> - {{ exercise.muscle_group }}
+                            <p>{{ exercise.description }}</p>
+                        </li>
+                    {% endfor %}
+                </ul>
 
-    {% if workouts %}
-    <table class="table table-hover">
-        <thead class="table-dark">
-            <tr>
-                <th>Name</th>
-                <th>Duration</th>
-                <th>Intensity</th>
-                <th>Actions</th>
-            </tr>
-        </thead>
-        <tbody>
-            {% for workout in workouts %}
-            <tr>
-                <td>{{ workout.name }}</td>
-                <td>{{ workout.duration }}</td>
-                <td>
-                    {% if workout.intensity == "Low" %}
-                    <span class="badge bg-success">Low</span>
-                    {% elif workout.intensity == "Moderate" %}
-                    <span class="badge bg-warning text-dark">Moderate</span>
-                    {% else %}
-                    <span class="badge bg-danger">High</span>
-                    {% endif %}
-                </td>
-                <td>
-                    <a href="{% url 'workouts:detail' workout.pk %}" class="btn btn-info btn-sm">View</a>
-                    <a href="{% url 'workouts:update' workout.pk %}" class="btn btn-warning btn-sm">Edit</a>
+                <div class="mt-3 d-flex justify-content-end">
+                    <a href="{% url 'workouts:update' workout.pk %}" class="btn btn-warning btn-sm me-2">Edit</a>
                     <a href="{% url 'workouts:delete' workout.pk %}" class="btn btn-danger btn-sm">Delete</a>
-                </td>
-            </tr>
-            {% endfor %}
-        </tbody>
-    </table>
-    {% else %}
-    <p class="text-center text-muted">No workouts created yet.</p>
+                </div>
+            </div>
+        </div>
+    {% endfor %}
+
+    {% if not workouts %}
+        <p class="text-center">No workouts available. <a href="{% url 'workouts:create' %}">Create a new workout</a>.</p>
     {% endif %}
+    
+    <div class="text-center mt-4">
+        <a href="{% url 'workouts:create' %}" class="btn btn-primary">Create New Workout</a>
+    </div>
 </div>
 {% endblock %}

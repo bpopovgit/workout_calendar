@@ -42,9 +42,8 @@ class WorkoutCreateView(LoginRequiredMixin, CreateView):
 
 
 class WorkoutUpdateView(LoginRequiredMixin, UpdateView):
-    # Allows the logged-in user to update an existing workout.
     model = Workout
-    fields = ['name', 'exercises', 'duration', 'intensity']
+    form_class = WorkoutForm
     template_name = 'workouts/workout_form.html'
     success_url = reverse_lazy('workouts:list')
 

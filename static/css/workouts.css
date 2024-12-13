@@ -1,0 +1,47 @@
+.container {
+    max-width: 800px;
+}
+
+h1 {
+    color: #d98834;
+    font-weight: bold;
+}
+
+.table-hover tbody tr:hover {
+    background-color: #f9f1e9;
+}
+
+.badge {
+    font-size: 0.9rem;
+    padding: 0.5em;
+}
+
+.btn-primary {
+    background-color: #d98834;
+    border-color: #d98834;
+}
+
+.btn-primary:hover {
+    background-color: #bf6e2d;
+    border-color: #bf6e2d;
+}
+
+.btn-danger {
+    background-color: #f8552c;
+    border-color: #f8552c;
+}
+
+.btn-danger:hover {
+    background-color: #db4824;
+    border-color: #db4824;
+}
+
+.btn-secondary {
+    background-color: #6c757d;
+    border-color: #6c757d;
+}
+
+.btn-secondary:hover {
+    background-color: #5a6268;
+    border-color: #5a6268;
+}
