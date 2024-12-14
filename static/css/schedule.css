@@ -29,6 +29,15 @@
     background-color: var(--warm-light);
 }
 
+.calendar-table td, .calendar-table th {
+    width: 14.28%; /* Divide evenly across 7 days */
+    height: 150px; /* Set a consistent height */
+    vertical-align: top;
+    text-align: center;
+    overflow: hidden; /* Prevent overflow for long content */
+    position: relative;
+}
+
 .calendar-table th {
     background-color: var(--warm-dark);
     color: var(--warm-secondary);
@@ -42,6 +51,8 @@
     vertical-align: top;
     height: 100px;
     background-color: var(--warm-light);
+    padding: 10px;
+    box-sizing: border-box;
 }
 
 .calendar-table td.bg-primary {
@@ -125,10 +136,12 @@
 
 .workout-item {
     background-color: #d98834 !important; /* Replace warm peach #FFA273 with #d98834 */
-    color: #fff; /* Ensure text remains white for contrast */
-    padding: 10px;
-    border-radius: 5px;
     margin: 5px 0;
+    padding: 8px;
+    color: #fff;
+    border-radius: 5px;
+    font-size: 0.9rem;
+    line-height: 1.2;
 }
 
 .workout-item:hover {

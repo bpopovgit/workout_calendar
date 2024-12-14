@@ -24,7 +24,7 @@
                     <h5 class="card-title">{{ goal.name }}</h5>
                     <p class="card-text">
                         <strong>Target:</strong> {{ goal.target }}<br>
-                        <strong>Progress:</strong> {{ goal.progress }}<br>
+                        <strong>Progress:</strong> {{ goal.progress }} ({{ goal.percentage_complete|floatformat:0 }}%)<br>
                         <strong>Due Date:</strong> {{ goal.due_date|date:"M d, Y" }}
                     </p>
                     <div class="progress mb-3">
@@ -36,6 +36,7 @@
                     </div>
                     <div class="d-flex justify-content-between">
                         <a href="{% url 'goals:edit_goal' goal.id %}" class="btn btn-warning btn-sm">Edit</a>
+                        <a href="{% url 'goals:update_progress' goal.id %}" class="btn btn-success btn-sm">Update Progress</a>
                         <form method="post" action="{% url 'goals:delete_goal' goal.id %}" style="display: inline;">
                             {% csrf_token %}
                             <button type="submit" class="btn btn-danger btn-sm">Delete</button>

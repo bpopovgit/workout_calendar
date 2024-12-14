@@ -50,22 +50,24 @@
                     {% for day in week %}
                         {% if day %}
                             <td class="{% if day in monthly_schedule %}bg-warm-red{% else %}bg-light{% endif %}">
-                                <strong>{{ day }}</strong>
-                                {% if day in monthly_schedule %}
-                                    {% for workout in monthly_schedule|get_item:day %}
-                                        <div class="workout-item">
-                                            <strong>{{ workout.workout.name }}</strong>
-                                            <p>{{ workout.description|default_if_none:"No description provided" }}</p>
-                                            <small>{{ workout.time|time:"P" }}</small>
-                                            <div>
-                                                <button onclick="editWorkout({{ workout.id }})" class="btn btn-warning btn-sm">Edit</button>
-                                                <button onclick="deleteWorkout({{ workout.id }})" class="btn btn-danger btn-sm">Delete</button>
+                                <div class="calendar-day">
+                                    <strong>{{ day }}</strong>
+                                    {% if day in monthly_schedule %}
+                                        {% for workout in monthly_schedule|get_item:day %}
+                                            <div class="workout-item">
+                                                <strong>{{ workout.workout.name }}</strong>
+                                                <p>{{ workout.description|default_if_none:"No description" }}</p>
+                                                <small>{{ workout.time|time:"P" }}</small>
+                                                <div>
+                                                    <button onclick="editWorkout({{ workout.id }})" class="btn btn-warning btn-sm">Edit</button>
+                                                    <button onclick="deleteWorkout({{ workout.id }})" class="btn btn-danger btn-sm">Delete</button>
+                                                </div>
                                             </div>
-                                        </div>
-                                    {% endfor %}
-                                {% else %}
-                                    Rest
-                                {% endif %}
+                                        {% endfor %}
+                                    {% else %}
+                                        <p>Rest</p>
+                                    {% endif %}
+                                </div>
                             </td>
                         {% else %}
                             <td class="bg-light empty"></td>

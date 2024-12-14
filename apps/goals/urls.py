@@ -1,3 +1,4 @@
+from .models import UpdateProgressView
 from .views import WorkoutLogListView, WorkoutLogCreateView, goal_list_view
 from django.urls import path
 from . import views
@@ -9,4 +10,6 @@ urlpatterns = [
     path('create/', views.create_goal, name='create_goal'),
     path('<int:pk>/edit/', views.edit_goal, name='edit_goal'),
     path('<int:pk>/delete/', views.delete_goal, name='delete_goal'),
+    path('<int:pk>/update_progress/', UpdateProgressView.as_view(), name='update_progress'),
+
 ]

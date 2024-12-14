@@ -77,6 +77,24 @@ function editWorkout(workoutId) {
         });
 }
 
+
+document.addEventListener('DOMContentLoaded', () => {
+    // handles heights for all cells dynamically
+    const cells = document.querySelectorAll('.calendar-table td');
+    let maxHeight = 0;
+
+    // Determine the maximum height of all cells
+    cells.forEach(cell => {
+        const cellHeight = cell.getBoundingClientRect().height;
+        if (cellHeight > maxHeight) maxHeight = cellHeight;
+    });
+
+    // Apply the maximum height to all cells
+    cells.forEach(cell => {
+        cell.style.height = `${maxHeight}px`;
+    });
+});
+
 // Handle form submission for edit
 function submitEditForm(event) {
     event.preventDefault();

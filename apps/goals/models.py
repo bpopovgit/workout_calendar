@@ -1,5 +1,9 @@
+from django.contrib.auth.mixins import LoginRequiredMixin
 from django.db import models
 from django.contrib.auth.models import User
+from django.urls import reverse_lazy
+from django.views.generic import UpdateView
+
 from apps.workouts.models import Workout
 
 
@@ -48,3 +52,15 @@ class Goal(models.Model):
         if self.target == 0:
             return 0
         return (self.progress / self.target) * 100
+
+
+class UpdateProgressView(LoginRequiredMixin, UpdateView):
+    model = Goal
+    fields = ['progress']
+    template_name = 'goals/update_progress.html'
+    context_object_name = 'goal'
+    success_url = reverse_lazy('goals:goal_list')
+
+    def get_queryset(self):
+        # Ensure only the user's goals can be updated
+        return Goal.objects.filter(user=self.request.user)
