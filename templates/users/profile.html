@@ -22,35 +22,40 @@
     <!-- Your Progress Section -->
     <div class="mt-5">
         <h2 class="mb-3">Your Progress</h2>
-        <p>Workouts completed: {{ completed_workouts }}</p>
-        <p>Total hours spent: {{ hours_spent }}</p>
+        <div class="alert alert-info">
+            <p><strong>Workouts Completed:</strong> {{ completed_workouts }}</p>
+            <p><strong>Total Hours Spent:</strong> {{ hours_spent }}</p>
+        </div>
     </div>
 
     <!-- Goals Section -->
     <div class="mt-5">
         <h2 class="mb-3">Your Goals</h2>
-        <ul class="list-group">
-            {% for goal in active_goals %}
-            <li class="list-group-item d-flex justify-content-between align-items-center">
-                <div>
-                    <strong>{{ goal.name }}</strong>: {{ goal.progress }}/{{ goal.target }}
-                    ({{ goal.percentage_complete|floatformat:2 }}%)
-                    {% if goal.due_date %}
-                    <p>Due by: {{ goal.due_date }}</p>
-                    {% endif %}
-                </div>
-                <a href="{% url 'goals:update_goal' goal.id %}" class="btn btn-link">Edit</a>
-            </li>
-            {% empty %}
+        {% if active_goals %}
+            <ul class="list-group">
+                {% for goal in active_goals %}
+                <li class="list-group-item d-flex justify-content-between align-items-center">
+                    <div>
+                        <strong>{{ goal.name }}</strong>: {{ goal.progress }}/{{ goal.target }}
+                        ({{ goal.percentage_complete|floatformat:2 }}%)
+                        {% if goal.due_date %}
+                        <p class="text-muted">Due by: {{ goal.due_date }}</p>
+                        {% endif %}
+                    </div>
+                    <a href="{% url 'goals:edit_goal' goal.id %}" class="btn btn-sm btn-link">Edit</a>
+                </li>
+                {% endfor %}
+            </ul>
+        {% else %}
             <p class="text-muted">No active goals. Set a new one today!</p>
-            {% endfor %}
-        </ul>
+        {% endif %}
         <a href="{% url 'goals:create_goal' %}" class="btn btn-primary mt-3">Add a New Goal</a>
     </div>
 
     <!-- Workout History Section -->
     <div class="mt-5">
         <h2 class="mb-3">Workout History</h2>
+        <p>View all of your past workouts in detail.</p>
         <a href="{% url 'workouts:workout_history' %}" class="btn btn-secondary">View All Past Workouts</a>
     </div>
 </div>
@@ -61,16 +66,40 @@
         fetch("{% url 'users:get_workout_data' %}")
             .then(response => response.json())
             .then(data => {
-                // Data for upcoming workouts
+                // Upcoming Workouts Chart
                 const upcomingLabels = data.upcoming_workouts.map(workout => workout.date);
-                const upcomingIntensities = data.upcoming_workouts.map(workout => workout.intensity); // Use words directly
+                const upcomingIntensities = data.upcoming_workouts.map(workout => workout.intensity);
                 const upcomingColors = data.upcoming_workouts.map(workout => {
                     if (workout.intensity === "High") return "rgba(255, 99, 132, 0.8)";
                     if (workout.intensity === "Moderate") return "rgba(255, 206, 86, 0.8)";
                     return "rgba(75, 192, 192, 0.8)";
                 });
 
-                // Data for recent workouts
+                new Chart(document.getElementById('upcomingWorkoutsChart'), {
+                    type: 'bar',
+                    data: {
+                        labels: upcomingLabels,
+                        datasets: [{
+                            label: 'Workout Intensity',
+                            data: Array(upcomingLabels.length).fill(1),
+                            backgroundColor: upcomingColors,
+                            borderColor: upcomingColors.map(color => color.replace(/0\.8/, "1")),
+                            borderWidth: 1
+                        }]
+                    },
+                    options: {
+                        indexAxis: 'y',
+                        plugins: {
+                            tooltip: {
+                                callbacks: {
+                                    label: (tooltipItem) => upcomingIntensities[tooltipItem.dataIndex]
+                                }
+                            }
+                        }
+                    }
+                });
+
+                // Recent Workouts Chart
                 const recentLabels = data.recent_workouts.map(workout => workout.date);
                 const recentIntensities = data.recent_workouts.map(workout => workout.intensity);
                 const recentColors = data.recent_workouts.map(workout => {
@@ -79,44 +108,6 @@
                     return "rgba(75, 192, 192, 0.8)";
                 });
 
-                // Chart for Upcoming Workouts
-                new Chart(document.getElementById('upcomingWorkoutsChart'), {
-                    type: 'bar',
-                    data: {
-                        labels: upcomingLabels,
-                        datasets: [{
-                            label: 'Workout Intensity',
-                            data: Array(upcomingLabels.length).fill(1), // Use dummy values for bar height
-                            backgroundColor: upcomingColors,
-                            borderColor: upcomingColors.map(color => color.replace(/0\.8/, "1")),
-                            borderWidth: 1
-                        }]
-                    },
-                    options: {
-                        indexAxis: 'y', // Horizontal bars for better space
-                        plugins: {
-                            tooltip: {
-                                callbacks: {
-                                    label: function(tooltipItem) {
-                                        return upcomingIntensities[tooltipItem.dataIndex]; // Show intensity in words
-                                    }
-                                }
-                            }
-                        },
-                        scales: {
-                            y: {
-                                beginAtZero: true,
-                                ticks: {
-                                    callback: function(value, index) {
-                                        return upcomingLabels[index]; // Display workout dates on Y-axis
-                                    }
-                                }
-                            }
-                        }
-                    }
-                });
-
-                // Chart for Recent Workouts
                 new Chart(document.getElementById('recentWorkoutsChart'), {
                     type: 'line',
                     data: {
@@ -131,7 +122,6 @@
                             backgroundColor: recentColors,
                             borderColor: recentColors.map(color => color.replace(/0\.8/, "1")),
                             borderWidth: 2,
-                            fill: false,
                             tension: 0.1
                         }]
                     },
@@ -140,7 +130,7 @@
                             y: {
                                 beginAtZero: true,
                                 ticks: {
-                                    callback: function(value) {
+                                    callback: (value) => {
                                         if (value === 3) return 'High';
                                         if (value === 2) return 'Moderate';
                                         return 'Low';

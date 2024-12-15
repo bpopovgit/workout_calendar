@@ -11,6 +11,9 @@ from .models import Workout
 from ..goals.models import WorkoutLog
 from django.db.models import Q
 from django.core.paginator import Paginator
+from django.views.generic import ListView
+from django.contrib.auth.mixins import LoginRequiredMixin
+from apps.schedule.models import WorkoutSchedule
 
 
 class WorkoutListView(LoginRequiredMixin, ListView):
@@ -55,11 +58,20 @@ class WorkoutDeleteView(LoginRequiredMixin, DeleteView):
     success_url = reverse_lazy('workouts:list')
 
 
-@login_required
-def workout_history(request):
-    user = request.user
-    workouts = WorkoutLog.objects.filter(user=user).order_by('-date_completed')
-    paginator = Paginator(workouts, 10)  # Show 10 workouts per page
-    page_number = request.GET.get('page')
-    page_obj = paginator.get_page(page_number)
-    return render(request, 'workouts/workouts_history.html', {'page_obj': page_obj})
+
+
+
+class WorkoutHistoryView(LoginRequiredMixin, ListView):
+    model = WorkoutSchedule
+    template_name = "workouts/workout_history.html"
+    context_object_name = "workouts"
+    paginate_by = 10  # Show 10 workouts per page
+
+    def get_queryset(self):
+        """Filter only past workouts for the logged-in user."""
+        return WorkoutSchedule.past_workouts(self.request.user)
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['total_workouts'] = self.get_queryset().count()
+        return context

@@ -5,6 +5,7 @@ from .views import (
     WorkoutCreateView,
     WorkoutUpdateView,
     WorkoutDeleteView,
+    WorkoutHistoryView,
 )
 from . import views
 
@@ -16,5 +17,5 @@ urlpatterns = [
     path('create/', WorkoutCreateView.as_view(), name='create'),
     path('<int:pk>/update/', WorkoutUpdateView.as_view(), name='update'),
     path('<int:pk>/delete/', WorkoutDeleteView.as_view(), name='delete'),
-    path('history/', views.workout_history, name='workout_history'),
+    path('history/', WorkoutHistoryView.as_view(), name='workout_history'),
 ]
