@@ -1,5 +1,7 @@
 from datetime import date, timedelta, datetime
 from django.db.models import Sum
+from django.utils import timezone
+from django.utils.timezone import now
 from django.views.generic.detail import DetailView
 from django.views.generic.edit import UpdateView
 from django.contrib.auth.mixins import LoginRequiredMixin
@@ -14,6 +16,11 @@ from django.http import Http404, JsonResponse
 from ..goals.models import WorkoutLog, Goal
 from ..schedule.models import WorkoutSchedule
 from ..workouts.models import Workout
+from django.contrib.auth.decorators import login_required
+from django.shortcuts import render, redirect
+from .models import UserProfile
+from django.contrib.auth.models import User
+from django.contrib import messages
 
 
 class UserProfileDetailView(LoginRequiredMixin, DetailView):
@@ -125,3 +132,36 @@ def get_workout_data(request):
         "recent_workouts": recent_data,
         "upcoming_workouts": upcoming_data,
     })
+
+@login_required
+def edit_profile(request):
+    user = request.user
+    profile = UserProfile.objects.get_or_create(user=user)[0]  # Ensure profile exists
+
+    if request.method == 'POST':
+        email = request.POST.get('email')
+        password = request.POST.get('password')
+        profile_picture = request.FILES.get('profile_picture')
+        goal = request.POST.get('goal')
+
+        # Update user email
+        if email:
+            user.email = email
+
+        # Update user password
+        if password:
+            user.set_password(password)
+
+        # Update profile fields
+        if profile_picture:
+            profile.profile_picture = profile_picture
+        if goal:
+            profile.goal = goal
+
+        user.save()
+        profile.save()
+
+        messages.success(request, 'Profile updated successfully!')
+        return redirect('users:profile')
+
+    return render(request, 'users/edit_profile.html', {'profile': profile})
