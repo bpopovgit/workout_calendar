@@ -1,29 +1,148 @@
-/* theme.css */
+/* Schedule Page-Specific Styles */
+
+/* Root Variables */
 :root {
+    --warm-dark: #4A2E2B; /* Dark brown */
     --warm-primary: #D98834; /* Warm orange */
     --warm-secondary: #F7C59F; /* Light beige */
-    --warm-dark: #4A2E2B; /* Dark brown */
     --warm-light: #FFF4E6; /* Cream */
     --warm-accent: #E4A672; /* Peachy accent */
 }
 
-/* Shared Buttons */
-.btn-warm-primary {
+/* Calendar Table */
+.calendar-table {
+    border-collapse: collapse;
+    width: 100%;
+    background-color: var(--warm-light);
+    table-layout: fixed; /* Ensures uniform cell sizes */
+    border: 2px solid var(--warm-dark); /* Add a strong outer border */
+}
+
+.calendar-table th, .calendar-table td {
+    width: 14.28%; /* Divide evenly across 7 days */
+    height: 150px; /* Consistent cell height */
+    vertical-align: top;
+    text-align: center;
+    border: 1px solid var(--warm-secondary); /* Visible grid lines */
+    box-sizing: border-box;
+    padding: 8px;
+}
+
+/* Days of the Week Header */
+.calendar-table th {
+    background-color: var(--warm-light);
+    color: var(--warm-dark); /* Dark brown for text */
+    font-weight: bold;
+    font-size: 1.1rem;
+    text-transform: uppercase;
+    padding: 12px;
+    border: 1px solid var(--warm-secondary); /* Borders for consistency */
+}
+
+/* Calendar Cells */
+.calendar-table td {
+    background-color: var(--warm-light);
+    color: var(--warm-dark); /* Dark text for day numbers */
+    position: relative;
+    padding: 10px;
+    box-sizing: border-box;
+}
+
+.calendar-table td:hover {
+    background-color: var(--warm-secondary); /* Slight highlight on hover */
+    transition: background-color 0.2s ease;
+}
+
+/* Workout Item Styling */
+.calendar-table .workout-item {
+    background-color: var(--warm-primary);
+    color: white;
+    border-radius: 6px;
+    padding: 6px;
+    margin-top: 5px;
+    font-size: 0.9rem;
+    box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.1);
+    text-align: left;
+}
+
+.calendar-table .workout-item.completed {
+    background-color: #28a745; /* Green for completed workouts */
+}
+
+.calendar-table .workout-item:hover {
+    background-color: #c8742e; /* Darker shade of primary on hover */
+    cursor: pointer;
+}
+
+/* Add Workout Button */
+.add-workout-btn {
+    display: inline-block;
+    padding: 12px 24px;
     background-color: var(--warm-primary);
     color: white;
     border: none;
+    border-radius: 8px;
+    font-size: 1.1rem;
+    font-weight: bold;
+    text-transform: uppercase;
+    cursor: pointer;
+    box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.1);
+    transition: background-color 0.3s ease, transform 0.2s ease;
 }
 
-.btn-warm-primary:hover {
-    background-color: #c8742e;
+.add-workout-btn:hover {
+    background-color: #c8742e; /* Slightly darker on hover */
+    transform: translateY(-2px); /* Subtle lift effect */
 }
 
-/* Shared Table Styling */
-.warm-table {
-    background-color: var(--warm-light);
-    border: 1px solid var(--warm-secondary);
+/* Buttons in Workout Item */
+.calendar-table .btn {
+    margin-top: 5px;
+    margin-right: 5px;
+    padding: 5px 8px;
+    font-size: 0.8rem;
+    border-radius: 4px;
+    color: white;
+    text-transform: uppercase;
 }
 
-.warm-table th, .warm-table td {
+.calendar-table .btn-warning {
+    background-color: var(--warm-accent);
+    border-color: var(--warm-accent);
+}
+
+.calendar-table .btn-warning:hover {
+    background-color: var(--warm-dark);
+    color: var(--warm-light);
+}
+
+.calendar-table .btn-success {
+    background-color: #28a745;
+    color: white;
+}
+
+.calendar-table .btn-danger {
+    background-color: #dc3545;
+    color: white;
+}
+
+/* Ensure Calendar Consistency */
+.calendar-day strong {
+    font-size: 1.1rem;
+    font-weight: bold;
     color: var(--warm-dark);
+    margin-bottom: 5px;
+    display: block;
+}
+
+.text-center {
+    text-align: center;
+}
+
+.mt-4 {
+    margin-top: 1.5rem;
+}
+
+.mb-4 {
+    margin-bottom: 1.5rem;
 }

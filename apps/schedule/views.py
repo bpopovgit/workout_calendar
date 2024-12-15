@@ -4,6 +4,7 @@ from datetime import datetime, timedelta, date
 from django.contrib.auth.decorators import login_required
 from django.http import JsonResponse
 from django.template.loader import render_to_string
+from django.views.decorators.http import require_POST
 from django.views.generic import ListView, CreateView
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.urls import reverse_lazy
@@ -42,6 +43,12 @@ def schedule_view(request):
             monthly_schedule[day] = []
         monthly_schedule[day].append(workout)
 
+    # Correctly align the first day of the month to the appropriate weekday
+    first_day_of_month = start_date.weekday()  # 0 = Monday, 6 = Sunday
+    total_days = list(range(1, num_days + 1))
+    padded_days = [None] * first_day_of_month + total_days  # Add padding for days before 1st
+    weeks = [padded_days[i:i + 7] for i in range(0, len(padded_days), 7)]  # Split into weeks
+
     today = datetime.now()
     month_choices = [
         today.replace(year=today.year + offset, month=month, day=1)
@@ -52,10 +59,7 @@ def schedule_view(request):
     context = {
         'current_month_start': start_date,
         'monthly_schedule': monthly_schedule,
-        'weeks': [
-            [days for days in range(1, num_days + 1)][i: i + 7]
-            for i in range(0, num_days, 7)
-        ],
+        'weeks': weeks,  # Pass corrected weeks to template
         'month_choices': month_choices,
     }
     return render(request, 'schedule/monthly_schedule.html', context)
@@ -101,6 +105,9 @@ def measurement_tracker_view(request):
 
 @login_required
 def edit_workout_view(request, workout_id):
+    """
+    View to handle editing of a scheduled workout via AJAX.
+    """
     workout = get_object_or_404(WorkoutSchedule, id=workout_id, user=request.user)
 
     if request.method == 'POST':
@@ -110,10 +117,8 @@ def edit_workout_view(request, workout_id):
             return JsonResponse({'status': 'success', 'message': 'Workout updated successfully!'})
         return JsonResponse({'status': 'error', 'errors': form.errors})
 
-    form_html = render(request, 'schedule/edit_form.html', {
-        'form': EditWorkoutScheduleForm(instance=workout),
-    }).content.decode()
-
+    # Render the form as HTML and return it to the client
+    form_html = render_to_string('schedule/edit_form.html', {'form': EditWorkoutScheduleForm(instance=workout)})
     return JsonResponse({'status': 'success', 'form': form_html})
 
 
@@ -125,3 +130,11 @@ def delete_workout_view(request, workout_id):
         return JsonResponse({'status': 'success', 'message': 'Workout deleted successfully!'})
 
     return JsonResponse({'status': 'error', 'message': 'Invalid request.'})
+
+@login_required
+@require_POST
+def mark_workout_completed(request, workout_id):
+    workout = get_object_or_404(WorkoutSchedule, id=workout_id, user=request.user)
+    workout.completed = True
+    workout.save()
+    return JsonResponse({'status': 'success', 'message': 'Workout marked as completed.'})

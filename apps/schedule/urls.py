@@ -1,6 +1,6 @@
 from django.urls import path
 from .views import WorkoutScheduleCreateView, measurement_tracker_view, schedule_view, edit_workout_view, \
-    delete_workout_view
+    delete_workout_view, mark_workout_completed
 
 app_name = 'schedule'
 
@@ -10,5 +10,6 @@ urlpatterns = [
     path('tracker/', measurement_tracker_view, name='measurement_tracker'),
     path('workout/edit/<int:workout_id>/', edit_workout_view, name='edit_workout'),
     path('workout/delete/<int:workout_id>/', delete_workout_view, name='delete_workout'),
+    path('mark-completed/<int:workout_id>/', mark_workout_completed, name='mark_workout_completed'),
 
 ]
