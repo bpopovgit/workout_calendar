@@ -1,74 +1,140 @@
 {% extends 'base.html' %}
+{% load static %}
+{% load query_string %}
+
 {% block title %}Workout History{% endblock %}
 
-{% block content %}
-<div class="container mt-5">
-    <h1 class="text-center mb-4">Workout History</h1>
+{% block head %}
+    <link rel="stylesheet" href="{% static 'css/workouts_history.css' %}">
+{% endblock %}
 
-    <!-- Filter Form -->
-    <form method="get" class="mb-4">
-        <div class="row g-3">
-            <div class="col-md-3">
-                <label for="intensity" class="form-label">Filter by Intensity</label>
-                <select name="intensity" id="intensity" class="form-select">
-                    <option value="" selected>All Intensities</option>
-                    <option value="Low" {% if request.GET.intensity == "Low" %}selected{% endif %}>Low</option>
-                    <option value="Moderate" {% if request.GET.intensity == "Moderate" %}selected{% endif %}>Moderate</option>
-                    <option value="High" {% if request.GET.intensity == "High" %}selected{% endif %}>High</option>
-                </select>
-            </div>
-            <div class="col-md-3">
-                <label for="start_date" class="form-label">Start Date</label>
-                <input type="date" name="start_date" id="start_date" class="form-control" value="{{ request.GET.start_date }}">
-            </div>
-            <div class="col-md-3">
-                <label for="end_date" class="form-label">End Date</label>
-                <input type="date" name="end_date" id="end_date" class="form-control" value="{{ request.GET.end_date }}">
-            </div>
-            <div class="col-md-3 d-flex align-items-end">
-                <button type="submit" class="btn btn-primary">Apply Filters</button>
-            </div>
+{% block content %}
+<div class="container mt-4">
+    <h1 class="text-center mb-4 text-warm-dark">Workout History</h1>
+
+    <!-- Search and Filter Section -->
+    <form method="get" class="row g-3 mb-4 shadow-sm p-3 rounded bg-warm-light">
+        <div class="col-md-4">
+            <input type="text" name="search" class="form-control" placeholder="Search by name or description"
+                   value="{{ request.GET.search }}">
+        </div>
+        <div class="col-md-3">
+            <select name="intensity" class="form-select">
+                <option value="">Filter by Intensity</option>
+                <option value="Low" {% if request.GET.intensity == 'Low' %}selected{% endif %}>Low</option>
+                <option value="Moderate" {% if request.GET.intensity == 'Moderate' %}selected{% endif %}>Moderate</option>
+                <option value="High" {% if request.GET.intensity == 'High' %}selected{% endif %}>High</option>
+            </select>
+        </div>
+        <div class="col-md-2">
+            <input type="date" name="start_date" class="form-control" placeholder="Start Date"
+                   value="{{ request.GET.start_date }}">
+        </div>
+        <div class="col-md-2">
+            <input type="date" name="end_date" class="form-control" placeholder="End Date"
+                   value="{{ request.GET.end_date }}">
+        </div>
+        <div class="col-md-1">
+            <button type="submit" class="btn btn-warm-primary w-100">Filter</button>
+        </div>
+        <div class="col-md-12 d-flex justify-content-end mt-2">
+            <a href="?export=csv" class="btn btn-success me-2">Export to CSV</a>
+            <a href="?export=pdf" class="btn btn-danger">Export to PDF</a>
         </div>
     </form>
 
-    <!-- Workout List -->
-    {% for workout in workouts %}
-        <div class="card mb-3">
-            <div class="card-body">
-                <h5 class="card-title">{{ workout.workout.name }}</h5>
-                <p class="card-text">
-                    <strong>Date:</strong> {{ workout.date }}<br>
-                    <strong>Intensity:</strong> {{ workout.intensity }}<br>
-                    <strong>Description:</strong> {{ workout.description|default:"No description provided" }}
-                </p>
-            </div>
-        </div>
-    {% empty %}
-        <p class="text-center">No workouts found for the selected filters.</p>
-    {% endfor %}
+    <!-- Chart Section -->
+    <div class="mb-5">
+        <h2 class="text-center text-warm-dark">Monthly Workout Trends</h2>
+        <canvas id="workoutTrendsChart" height="100"></canvas>
+    </div>
+
+    <!-- Workouts Table -->
+    <div class="table-responsive">
+        <table class="table table-bordered table-striped align-middle warm-table">
+            <thead>
+                <tr class="bg-warm-primary text-white">
+                    <th>#</th>
+                    <th>Workout Name</th>
+                    <th>Date</th>
+                    <th>Time</th>
+                    <th>Intensity</th>
+                    <th>Description</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for workout in workouts %}
+                <tr>
+                    <td class="text-warm-dark">{{ forloop.counter }}</td>
+                    <td><strong class="text-warm-primary">{{ workout.workout.name }}</strong></td>
+                    <td>{{ workout.date|date:"M d, Y" }}</td>
+                    <td>{{ workout.time }}</td>
+                    <td>
+                        <span class="badge bg-{% if workout.workout.intensity == 'High' %}danger{% elif workout.workout.intensity == 'Moderate' %}warning{% else %}success{% endif %}">
+                            {{ workout.workout.intensity }}
+                        </span>
+                    </td>
+                    <td class="text-muted">{{ workout.description|default:"N/A" }}</td>
+                </tr>
+                {% empty %}
+                <tr>
+                    <td colspan="6" class="text-center text-muted">No past workouts found.</td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
 
     <!-- Pagination -->
-    {% if workouts.has_other_pages %}
-        <nav>
-            <ul class="pagination justify-content-center">
-                {% if workouts.has_previous %}
-                    <li class="page-item">
-                        <a class="page-link" href="?{% if request.GET.intensity %}intensity={{ request.GET.intensity }}&{% endif %}page={{ workouts.previous_page_number }}">Previous</a>
-                    </li>
-                {% endif %}
-                {% for num in workouts.paginator.page_range %}
-                    <li class="page-item {% if workouts.number == num %}active{% endif %}">
-                        <a class="page-link" href="?{% if request.GET.intensity %}intensity={{ request.GET.intensity }}&{% endif %}page={{ num }}">{{ num }}</a>
-                    </li>
-                {% endfor %}
-                {% if workouts.has_next %}
-                    <li class="page-item">
-                        <a class="page-link" href="?{% if request.GET.intensity %}intensity={{ request.GET.intensity }}&{% endif %}page={{ workouts.next_page_number }}">Next</a>
-                    </li>
-                {% endif %}
-            </ul>
-        </nav>
+    {% if is_paginated %}
+    <nav aria-label="Page navigation">
+        <ul class="pagination justify-content-center">
+            {% if page_obj.has_previous %}
+            <li class="page-item">
+                <a class="page-link" href="?{% query_string request page=page_obj.previous_page_number %}">Previous</a>
+            </li>
+            {% endif %}
+            <li class="page-item disabled">
+                <span class="page-link">Page {{ page_obj.number }} of {{ page_obj.paginator.num_pages }}</span>
+            </li>
+            {% if page_obj.has_next %}
+            <li class="page-item">
+                <a class="page-link" href="?{% query_string request page=page_obj.next_page_number %}">Next</a>
+            </li>
+            {% endif %}
+        </ul>
+    </nav>
     {% endif %}
-
 </div>
+
+<!-- Chart Script -->
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<script>
+    document.addEventListener('DOMContentLoaded', function () {
+        const monthlyData = {{ monthly_data|safe }};
+        const ctx = document.getElementById('workoutTrendsChart').getContext('2d');
+        new Chart(ctx, {
+            type: 'bar',
+            data: {
+                labels: monthlyData.labels,
+                datasets: [{
+                    label: 'Workouts Per Month',
+                    data: monthlyData.data,
+                    backgroundColor: 'rgba(54, 162, 235, 0.6)',
+                    borderColor: 'rgba(54, 162, 235, 1)',
+                    borderWidth: 1
+                }]
+            },
+            options: {
+                responsive: true,
+                scales: {
+                    y: {
+                        beginAtZero: true,
+                        ticks: { stepSize: 1 }
+                    }
+                }
+            }
+        });
+    });
+</script>
 {% endblock %}

@@ -26,3 +26,4 @@ def format_duration(value):
             return f"{hours} hour{'s' if hours > 1 else ''} {minutes} minute{'s' if minutes > 1 else ''}"
         return f"{hours} hour{'s' if hours > 1 else ''}"
     return f"{minutes} minute{'s' if minutes > 1 else ''}"
+

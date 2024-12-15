@@ -1,0 +1,71 @@
+/* Workout History Page-Specific Styles */
+
+/* Warm Table Styling */
+.warm-table {
+    background-color: var(--warm-light);
+    border-color: var(--warm-dark);
+}
+
+.warm-table th, .warm-table td {
+    vertical-align: middle;
+    border: 1px solid var(--warm-secondary);
+    color: var(--warm-dark);
+}
+
+.warm-table tbody tr:hover {
+    background-color: var(--warm-accent);
+    color: white;
+}
+
+.table-responsive {
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+    border-radius: 8px;
+}
+
+/* Pagination */
+.pagination .page-item.active .page-link {
+    background-color: var(--warm-primary);
+    border-color: var(--warm-primary);
+}
+
+.pagination .page-item .page-link {
+    color: var(--warm-dark);
+    border: 1px solid var(--warm-dark);
+}
+
+.pagination .page-item:hover .page-link {
+    background-color: var(--warm-accent);
+    color: white;
+    border-color: var(--warm-accent);
+}
+
+/* Achievements Section */
+.alert-success {
+    background-color: var(--warm-light);
+    border-color: var(--warm-accent);
+    color: var(--warm-dark);
+    font-weight: bold;
+}
+
+/* Monthly Workout Trends Chart Section */
+#workoutTrendsChart {
+    background-color: var(--warm-light);
+    padding: 10px;
+    border-radius: 8px;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
+}
+
+/* Highlight Filter Button */
+.btn-warm-primary {
+    background-color: #FFC107; /* Yellow color */
+    color: var(--warm-dark); /* Dark text for contrast */
+    font-weight: bold;
+    border: none;
+    border-radius: 5px;
+    transition: background-color 0.3s, color 0.3s;
+}
+
+.btn-warm-primary:hover {
+    background-color: #E0A800; /* Slightly darker yellow on hover */
+    color: #FFF; /* White text for hover */
+}
