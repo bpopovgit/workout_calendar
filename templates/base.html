@@ -15,6 +15,51 @@
     <!-- Select2 CSS -->
     <link href="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.13/css/select2.min.css" rel="stylesheet" />
 
+    <style>
+        /* Header and Footer Background Fix */
+        .navbar, footer {
+            background-color: var(--warm-dark) !important;
+            color: var(--warm-light) !important;
+        }
+        
+        body {
+            background-color: var(--warm-light) !important;
+        }
+
+        /* Navbar Links */
+        .navbar-nav .nav-link {
+            color: var(--warm-accent) !important;
+            font-weight: bold;
+            transition: background-color 0.3s ease, color 0.3s ease;
+            padding: 10px 15px;
+            text-transform: uppercase;
+            border-radius: 5px;
+        }
+
+        .navbar-nav .nav-link:hover {
+            background-color: var(--warm-primary) !important;
+            color: var(--warm-light) !important;
+        }
+
+        /* Navbar Brand */
+        .navbar-brand {
+            color: var(--warm-primary) !important;
+            font-weight: bold;
+            font-size: 1.5rem;
+            transition: color 0.3s ease;
+        }
+
+        .navbar-brand:hover {
+            color: var(--warm-accent) !important;
+        }
+
+        /* Footer Styling */
+        footer p {
+            margin: 0;
+            color: var(--warm-light) !important;
+        }
+    </style>
+
     <!-- Block for additional stylesheets -->
     {% block head %}{% endblock %}
 </head>
