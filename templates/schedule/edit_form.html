@@ -1,5 +1,5 @@
 {% load crispy_forms_filters %}
-<form id="editWorkoutForm" class="p-3">
+<form id="editWorkoutForm" method="post" novalidate>
+    {% csrf_token %}
     {{ form|crispy }}
-    <input type="hidden" name="csrfmiddlewaretoken" value="{{ csrf_token }}">
 </form>

@@ -1,7 +1,6 @@
 from django import forms
 from .models import WorkoutSchedule
 from django import forms
-from .models import Measurement
 from crispy_forms.helper import FormHelper
 from crispy_forms.layout import Submit, Layout
 
@@ -64,9 +63,3 @@ class EditWorkoutScheduleForm(forms.ModelForm):
             initial=self.instance.date,
             widget=forms.TextInput(attrs={'class': 'form-control', 'readonly': 'readonly'})
         )
-
-
-class MeasurementForm(forms.ModelForm):
-    class Meta:
-        model = Measurement
-        fields = ['weight', 'chest', 'arm', 'waist', 'hips', 'thighs', 'calf', 'bmi']

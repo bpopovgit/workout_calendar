@@ -2,16 +2,16 @@
 
 {% block content %}
 <div class="container mt-4">
-    <h1 class="text-center">Your Goals</h1>
+    <h1 class="text-center text-warm-dark mb-4">Your Goals</h1>
 
     <!-- Motivational Quote -->
-    <div class="alert alert-warning text-center">
+    <div class="alert alert-warning text-center shadow-sm">
         <em>{{ quote }}</em>
     </div>
 
     <!-- Create New Goal Button -->
     <div class="text-center my-4">
-        <a href="{% url 'goals:create_goal' %}" class="btn btn-primary">Create New Goal</a>
+        <a href="{% url 'goals:create_goal' %}" class="btn btn-warm-primary px-4 py-2">Create New Goal</a>
     </div>
 
     <!-- Goals List -->
@@ -28,7 +28,7 @@
                         <strong>Due Date:</strong> {{ goal.due_date|date:"M d, Y" }}
                     </p>
                     <div class="progress mb-3">
-                        <div class="progress-bar" role="progressbar"
+                        <div class="progress-bar bg-success" role="progressbar"
                              style="width: {{ goal.percentage_complete }}%;"
                              aria-valuenow="{{ goal.percentage_complete }}" aria-valuemin="0" aria-valuemax="100">
                             {{ goal.percentage_complete|floatformat:0 }}%
@@ -48,7 +48,60 @@
         {% endfor %}
     </div>
     {% else %}
-    <p class="text-center">You have no active goals. <a href="{% url 'goals:create_goal' %}">Create one now!</a></p>
+    <!-- Styled "No Goals" Message -->
+    <div class="no-goals-message text-center p-4 mt-5 rounded shadow-sm">
+        <p class="mb-0 text-warm-dark">
+            You have no active goals. 
+            <a href="{% url 'goals:create_goal' %}" class="create-goal-link"></a>
+        </p>
+    </div>
     {% endif %}
 </div>
+
+<style>
+    /* Custom "No Goals" Message Styles */
+    .no-goals-message {
+        background-color: var(--warm-light); /* Soft cream background */
+        border: 1px solid var(--warm-secondary); /* Light beige border */
+        color: var(--warm-dark); /* Dark brown text */
+        font-size: 1.2rem;
+    }
+
+    .no-goals-message p {
+        margin: 0;
+        font-weight: bold;
+        line-height: 1.5;
+    }
+
+    .create-goal-link {
+        color: var(--warm-primary); /* Warm orange */
+        text-decoration: none; /* Remove underline */
+        font-weight: bold;
+        transition: color 0.3s ease, transform 0.2s ease;
+    }
+
+    .create-goal-link:hover {
+        color: #c8742e; /* Slightly darker warm orange */
+        transform: scale(1.05); /* Slight zoom effect */
+    }
+
+    /* Button Styling */
+    .btn-warm-primary {
+        background-color: var(--warm-primary); /* Warm orange */
+        color: var(--warm-light); /* Light cream text */
+        border: none;
+        font-weight: bold;
+        border-radius: 6px;
+        transition: background-color 0.3s ease, transform 0.2s ease;
+    }
+
+    .btn-warm-primary:hover {
+        background-color: #c8742e; /* Darker orange */
+        transform: translateY(-2px);
+    }
+
+    .text-warm-dark {
+        color: var(--warm-dark);
+    }
+</style>
 {% endblock %}

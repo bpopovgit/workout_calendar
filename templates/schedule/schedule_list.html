@@ -1,26 +1,26 @@
-{% extends 'base.html' %}
-
-{% block content %}
-<h1>Your Workout Schedule</h1>
-
-<!-- Display Scheduled Workouts -->
-<ul>
-    {% for schedule in schedules %}
-        <li>
-            {{ schedule.date }} at {{ schedule.time }}: {{ schedule.workout.name }}
-        </li>
-    {% endfor %}
-</ul>
-
-<!-- Add to Schedule Button -->
-<a href="{% url 'schedule:schedule_add' %}" class="btn btn-primary mb-4">Add to Schedule</a>
-
-<!-- Navigation to Weekly Schedule and Measurement Tracker -->
-<div class="mt-5">
-    <h3>Additional Tools</h3>
-    <div class="d-flex flex-wrap gap-3">
-        <a href="{% url 'schedule:monthly_schedule' %}" class="btn btn-info">View Monthly Schedule</a>
-        <a href="{% url 'schedule:measurement_tracker' %}" class="btn btn-secondary">Track Measurements</a>
-    </div>
-</div>
-{% endblock %}
+{#{% extends 'base.html' %}#}
+{##}
+{#{% block content %}#}
+{#<h1>Your Workout Schedule</h1>#}
+{##}
+{#<!-- Display Scheduled Workouts -->#}
+{#<ul>#}
+{#    {% for schedule in schedules %}#}
+{#        <li>#}
+{#            {{ schedule.date }} at {{ schedule.time }}: {{ schedule.workout.name }}#}
+{#        </li>#}
+{#    {% endfor %}#}
+{#</ul>#}
+{##}
+{#<!-- Add to Schedule Button -->#}
+{#<a href="{% url 'schedule:schedule_add' %}" class="btn btn-primary mb-4">Add to Schedule</a>#}
+{##}
+{#<!-- Navigation to Weekly Schedule and Measurement Tracker -->#}
+{#<div class="mt-5">#}
+{#    <h3>Additional Tools</h3>#}
+{#    <div class="d-flex flex-wrap gap-3">#}
+{#        <a href="{% url 'schedule:monthly_schedule' %}" class="btn btn-info">View Monthly Schedule</a>#}
+{#        <a href="{% url 'schedule:measurement_tracker' %}" class="btn btn-secondary">Track Measurements</a>#}
+{#    </div>#}
+{#</div>#}
+{#{% endblock %}#}

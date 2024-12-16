@@ -125,3 +125,28 @@
 .text-center {
     text-align: center;
 }
+
+/* Modal Header Styling */
+.modal-header {
+    background-color: var(--warm-primary); /* Warm orange */
+    color: var(--warm-light); /* Light cream text */
+    border-bottom: 1px solid var(--warm-dark); /* Subtle separation */
+    font-size: 1.1rem;
+    font-weight: bold;
+}
+
+.modal-title {
+    font-size: 1.2rem; /* Slightly larger title font */
+    font-weight: bold;
+    color: var(--warm-light); /* Light cream text */
+}
+
+.btn-close {
+    color: var(--warm-light); /* Close button matches text color */
+    opacity: 1;
+}
+
+.btn-close:hover {
+    background-color: var(--warm-accent); /* Peach hover background */
+    border-radius: 50%; /* Rounded button */
+}
