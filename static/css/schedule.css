@@ -1,14 +1,3 @@
-/* Schedule Page-Specific Styles */
-
-/* Root Variables */
-:root {
-    --warm-dark: #4A2E2B; /* Dark brown */
-    --warm-primary: #D98834; /* Warm orange */
-    --warm-secondary: #F7C59F; /* Light beige */
-    --warm-light: #FFF4E6; /* Cream */
-    --warm-accent: #E4A672; /* Peachy accent */
-}
-
 /* Calendar Table */
 .calendar-table {
     border-collapse: collapse;
@@ -20,12 +9,13 @@
 
 .calendar-table th, .calendar-table td {
     width: 14.28%; /* Divide evenly across 7 days */
-    height: 150px; /* Consistent height for all cells */
+    height: 100px; /* Reduced height for smaller cells */
     vertical-align: top;
     text-align: center;
     border: 1px solid var(--warm-dark); /* Visible grid lines */
     box-sizing: border-box;
-    padding: 8px;
+    padding: 6px; /* Reduced padding */
+    font-size: 0.9rem; /* Slightly smaller font for readability */
 }
 
 /* Days of the Week Header */
@@ -33,9 +23,9 @@
     background-color: var(--warm-dark); /* Dark brown background */
     color: var(--warm-light); /* Light cream text */
     font-weight: bold;
-    font-size: 1.1rem;
+    font-size: 1rem; /* Adjust font size to fit the smaller height */
     text-transform: uppercase;
-    padding: 12px;
+    padding: 8px; /* Adjust padding */
     border: 1px solid var(--warm-dark); /* Border consistency */
 }
 
@@ -44,8 +34,9 @@
     background-color: var(--warm-secondary); /* Light beige */
     color: var(--warm-dark); /* Dark brown text for numbers */
     position: relative;
-    padding: 10px;
+    padding: 6px; /* Adjust padding to fit smaller height */
     box-sizing: border-box;
+    font-size: 0.9rem;
 }
 
 .calendar-table td:hover {
@@ -57,10 +48,10 @@
 .calendar-table .workout-item {
     background-color: var(--warm-primary);
     color: white;
-    border-radius: 6px;
-    padding: 6px;
-    margin-top: 5px;
-    font-size: 0.9rem;
+    border-radius: 4px;
+    padding: 4px; /* Smaller padding for the workout items */
+    margin-top: 4px;
+    font-size: 0.8rem; /* Smaller font size for compact display */
     box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.1);
     text-align: left;
 }
@@ -74,78 +65,63 @@
     cursor: pointer;
 }
 
-/* Add Workout Button */
+/* Centralize the "Select a Month" dropdown */
+#monthForm {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-bottom: 1.5rem; /* Add some spacing below */
+}
+
+#monthForm label {
+    color: var(--warm-dark); /* Dark brown for the label */
+    font-weight: bold;
+    font-size: 1rem;
+    margin-right: 10px; /* Space between label and select box */
+}
+
+#monthForm select {
+    background-color: var(--warm-light); /* Cream background */
+    border: 1px solid var(--warm-secondary);
+    border-radius: 5px;
+    padding: 6px 12px;
+    font-size: 1rem;
+    color: var(--warm-dark);
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    transition: border 0.2s ease-in-out, box-shadow 0.2s ease-in-out;
+}
+
+#monthForm select:focus {
+    outline: none;
+    border: 1px solid var(--warm-primary); /* Highlight with warm orange */
+    box-shadow: 0 0 5px rgba(217, 136, 52, 0.5);
+}
+
+/* Styling the Add Workout Button */
 .add-workout-btn {
     display: inline-block;
-    padding: 10px 20px; /* Reduced padding for a smaller size */
+    padding: 10px 20px;
     background-color: var(--warm-primary); /* Warm orange background */
-    color: white; /* White text */
-    border: none; /* Clean look without border */
-    border-radius: 6px; /* Rounded corners */
-    font-size: 1rem; /* Slightly above normal font size */
-    font-weight: 600; /* Medium font weight */
-    text-transform: capitalize; /* Normal sentence casing */
+    color: var(--warm-light); /* Cream text */
+    border: none;
+    border-radius: 6px;
+    font-size: 1rem;
+    font-weight: bold;
+    text-transform: uppercase;
+    cursor: pointer;
     text-decoration: none; /* Remove underline */
-    cursor: pointer; /* Pointer on hover */
-    text-align: center;
-    box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.2); /* Subtle shadow for depth */
-    transition: background-color 0.3s ease, box-shadow 0.2s ease;
+    box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.2);
+    transition: background-color 0.3s ease, transform 0.2s ease;
 }
 
 .add-workout-btn:hover {
-    background-color: #c8742e; /* Slightly darker warm orange */
-    box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.3); /* Deeper shadow on hover */
-    text-decoration: none; /* Ensures no underline */
+    background-color: #c8742e; /* Slightly darker orange */
+    transform: translateY(-2px); /* Lift effect on hover */
+    box-shadow: 0px 6px 8px rgba(0, 0, 0, 0.3);
+    text-decoration: none;
 }
 
-/* Buttons in Workout Item */
-.calendar-table .btn {
-    margin-top: 5px;
-    margin-right: 5px;
-    padding: 5px 8px;
-    font-size: 0.8rem;
-    border-radius: 4px;
-    color: white;
-    text-transform: uppercase;
-}
-
-.calendar-table .btn-warning {
-    background-color: var(--warm-accent);
-    border-color: var(--warm-accent);
-}
-
-.calendar-table .btn-warning:hover {
-    background-color: var(--warm-dark);
-    color: var(--warm-light);
-}
-
-.calendar-table .btn-success {
-    background-color: #28a745;
-    color: white;
-}
-
-.calendar-table .btn-danger {
-    background-color: #dc3545;
-    color: white;
-}
-
-/* Ensure Calendar Consistency */
-.calendar-day strong {
-    font-size: 1.1rem;
-    font-weight: bold;
-    color: var(--warm-dark);
-    margin-bottom: 5px;
-    display: block;
-}
-
+/* Optional: Centralize the "Add Workout to Schedule" button */
 .text-center {
     text-align: center;
-}
-
-.mt-4 {
-    margin-top: 1.5rem;
-}
-
-.mb-4 {
-    margin-bottom: 1.5rem;
 }
