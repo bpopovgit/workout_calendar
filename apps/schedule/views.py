@@ -111,15 +111,19 @@ def edit_workout_view(request, workout_id):
     workout = get_object_or_404(WorkoutSchedule, id=workout_id, user=request.user)
 
     if request.method == 'POST':
-        form = EditWorkoutScheduleForm(request.POST, instance=workout)
+        form = EditWorkoutScheduleForm(request.POST, instance=workout, user=request.user)
         if form.is_valid():
             form.save()
             return JsonResponse({'status': 'success', 'message': 'Workout updated successfully!'})
         return JsonResponse({'status': 'error', 'errors': form.errors})
 
     # Render the form as HTML and return it to the client
-    form_html = render_to_string('schedule/edit_form.html', {'form': EditWorkoutScheduleForm(instance=workout)})
+    form_html = render_to_string(
+        'schedule/edit_form.html',
+        {'form': EditWorkoutScheduleForm(instance=workout, user=request.user)}
+    )
     return JsonResponse({'status': 'success', 'form': form_html})
+
 
 
 @login_required

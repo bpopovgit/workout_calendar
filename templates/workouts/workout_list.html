@@ -35,10 +35,6 @@
             </div>
         </div>
     {% endfor %}
-
-    {% if not workouts %}
-        <p class="text-center">No workouts available. <a href="{% url 'workouts:create' %}">Create a new workout</a>.</p>
-    {% endif %}
     
     <div class="text-center mt-4">
         <a href="{% url 'workouts:create' %}" class="btn btn-primary">Create New Workout</a>

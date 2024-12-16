@@ -48,7 +48,13 @@ class EditWorkoutScheduleForm(forms.ModelForm):
         fields = ['workout', 'time', 'description']  # Exclude 'date'
 
     def __init__(self, *args, **kwargs):
+        user = kwargs.pop('user')  # Pass the user to filter workouts
         super().__init__(*args, **kwargs)
+
+        # Filter the workout field to only show workouts belonging to the current user
+        self.fields['workout'].queryset = Workout.objects.filter(user=user)
+
+        # Apply widget attributes
         self.fields['workout'].widget.attrs.update({'class': 'form-select'})
         self.fields['time'].widget.attrs.update({'class': 'form-control', 'type': 'time'})
         self.fields['description'].widget.attrs.update({'class': 'form-control', 'rows': 3})
@@ -58,7 +64,6 @@ class EditWorkoutScheduleForm(forms.ModelForm):
             initial=self.instance.date,
             widget=forms.TextInput(attrs={'class': 'form-control', 'readonly': 'readonly'})
         )
-
 
 
 class MeasurementForm(forms.ModelForm):
