@@ -1,0 +1,105 @@
+/* Root Variables (Warm Theme) */
+:root {
+    --warm-dark: #4A2E2B; /* Dark brown */
+    --warm-primary: #D98834; /* Warm orange */
+    --warm-secondary: #F7C59F; /* Light beige */
+    --warm-light: #FFF4E6; /* Cream */
+    --warm-accent: #E4A672; /* Peachy accent */
+    --warm-soft: #EFD9B4; /* Soft beige */
+    --warm-row: #F2E2C4; /* Light brown for table rows */
+}
+
+/* Card Styling for Statistics */
+.card-statistics {
+    background-color: var(--warm-secondary);
+    border: 2px solid var(--warm-dark);
+    color: var(--warm-dark);
+}
+
+.card-statistics .card-header {
+    background-color: var(--warm-dark);
+    color: var(--warm-light);
+    font-weight: bold;
+}
+
+.card-statistics h5 {
+    font-size: 1.3rem;
+    font-weight: bold;
+}
+
+.card-statistics p {
+    font-size: 2rem;
+    color: var(--warm-dark);
+}
+
+/* Table Styling */
+.table {
+    background-color: transparent; /* Remove white background */
+    border-color: var(--warm-dark);
+    color: var(--warm-dark);
+}
+
+.table th {
+    background-color: var(--warm-dark);
+    color: var(--warm-light);
+    font-weight: bold;
+}
+
+.table td {
+    background-color: var(--warm-row);
+    color: var(--warm-dark);
+    border-color: var(--warm-light);
+}
+
+.table tbody tr:nth-child(even) {
+    background-color: var(--warm-soft); /* Alternating row color */
+}
+
+.table tbody tr:hover {
+    background-color: var(--warm-accent);
+    color: var(--warm-light);
+    transition: background-color 0.3s ease;
+}
+
+/* Section Headers */
+.text-warm-dark {
+    color: var(--warm-dark);
+}
+
+/* Buttons */
+.btn-secondary {
+    background-color: var(--warm-dark);
+    border-color: var(--warm-dark);
+    color: var(--warm-light);
+}
+
+.btn-secondary:hover {
+    background-color: var(--warm-accent);
+    color: var(--warm-dark);
+    border-color: var(--warm-dark);
+}
+
+/* Workout History Button Styling */
+.workout-history-btn {
+    background-color: #D98834; /* Warm orange */
+    color: white; /* White text */
+    border: none;
+    padding: 15px 0; /* Taller button for emphasis */
+    font-size: 1.2rem; /* Slightly larger font size */
+    font-weight: bold;
+    text-transform: uppercase;
+    border-radius: 8px; /* Rounded corners */
+    transition: background-color 0.3s ease, transform 0.2s ease;
+    width: 100%; /* Stretch button width */
+    max-width: 700px; /* Prevent button from being too wide on larger screens */
+    text-align: center; /* Ensure text stays centered */
+    margin: 20px auto 40px; /* Add spacing above and below */
+    box-shadow: 0px 2px 5px rgba(0, 0, 0, 0.2); /* Subtle shadow for depth */
+    display: block; /* Makes sure the button behaves as a block-level element */
+}
+
+.workout-history-btn:hover {
+    background-color: #c8742e; /* Slightly darker orange on hover */
+    transform: translateY(-3px); /* Subtle lift effect */
+    color: white;
+}

@@ -2,6 +2,10 @@
 {% load static %}
 {% block title %}Profile{% endblock %}
 
+{% block head %}
+    <link rel="stylesheet" href="{% static 'css/profile.css' %}">
+{% endblock %}
+
 {% block content %}
 <div class="container mt-5">
     <!-- User Profile Section -->
@@ -17,45 +21,62 @@
         <a href="{% url 'users:edit_profile' %}" class="btn btn-primary mt-2">Edit Profile</a>
     </div>
 
-    <!-- Weekly Schedule Section -->
-<div class="mt-5">
-    <h2 class="mb-3">This Week's Schedule</h2>
-    <div class="table-responsive shadow-sm rounded bg-light p-3">
-        <table class="table table-bordered text-center">
-            <thead class="table-dark">
-                <tr>
-                    <th>Day</th>
-                    <th>Workout</th>
-                    <th>Time</th>
-                    <th>Description</th>
-                </tr>
-            </thead>
-            <tbody>
-                {% for workout in weekly_schedule %}
-                <tr>
-                    <td>{{ workout.date|date:"l, M d" }}</td>
-                    <td>{{ workout.workout.name }}</td>
-                    <td>{{ workout.time|time:"g:i A" }}</td>
-                    <td>{{ workout.description|default:"N/A" }}</td>
-                </tr>
-                {% empty %}
-                <tr>
-                    <td colspan="4" class="text-muted">No workouts scheduled for this week.</td>
-                </tr>
-                {% endfor %}
-            </tbody>
-        </table>
+    <!-- Your Statistics Section -->
+    <div class="card card-statistics shadow-sm mb-5">
+        <div class="card-header text-center bg-warm-dark text-white">Your Statistics</div>
+        <div class="card-body">
+            <div class="row">
+                <div class="col-md-6 text-center mb-3">
+                    <h5>Total Workouts Completed</h5>
+                    <p>{{ total_completed_workouts }}</p>
+                </div>
+                <div class="col-md-6 text-center mb-3">
+                    <h5>Total Hours Exercising</h5>
+                    <p>{{ total_hours_spent|floatformat:1 }} hrs</p>
+                </div>
+            </div>
+        </div>
     </div>
-    <div class="text-end mt-3">
-        <a href="{% url 'schedule:schedule_list' %}" class="btn btn-secondary">View Full Monthly Schedule</a>
-    </div>
-</div>
 
-    <!-- Workout History Section -->
+    <!-- Weekly Schedule Section -->
     <div class="mt-5">
-        <h2 class="mb-3">Workout History</h2>
-        <p>View all of your past workouts in detail.</p>
-        <a href="{% url 'workouts:workout_history' %}" class="btn btn-success">View All Past Workouts</a>
+        <h2 class="mb-3 text-warm-dark">This Week's Schedule</h2>
+        <div class="table-responsive shadow-sm rounded bg-warm-light p-3">
+            <table class="table table-bordered text-center">
+                <thead class="table-warm-dark text-light">
+                    <tr>
+                        <th>Day</th>
+                        <th>Workout</th>
+                        <th>Time</th>
+                        <th>Description</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for workout in weekly_schedule %}
+                    <tr>
+                        <td>{{ workout.date|date:"l, M d" }}</td>
+                        <td>{{ workout.workout.name }}</td>
+                        <td>{{ workout.time|time:"g:i A" }}</td>
+                        <td>{{ workout.description|default:"N/A" }}</td>
+                    </tr>
+                    {% empty %}
+                    <tr>
+                        <td colspan="4" class="text-muted">No workouts scheduled for this week.</td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+        <div class="text-end mt-3">
+            <a href="{% url 'schedule:schedule_list' %}" class="btn btn-secondary">View Full Monthly Schedule</a>
+        </div>
+    </div>
+
+    <!-- Workout History Button Section -->
+    <div class="mt-5">
+        <a href="{% url 'workouts:workout_history' %}" class="btn btn-lg workout-history-btn d-block mx-auto">
+            Workout History
+        </a>
     </div>
 </div>
 {% endblock %}

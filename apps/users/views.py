@@ -1,5 +1,5 @@
 from datetime import date, timedelta, datetime
-from django.db.models import Sum
+from django.db.models import Sum, Count
 from django.utils import timezone
 from django.utils.timezone import now
 from django.views.generic.detail import DetailView
@@ -74,19 +74,30 @@ def get_upcoming_workouts(user, limit=5):
     return upcoming[:limit]
 
 
+@login_required
 def user_profile_view(request):
     user = request.user
 
-    # Existing logic for upcoming workouts
-    upcoming_workouts = get_upcoming_workouts(user)
+    # Total Workouts Completed
+    total_completed_workouts = WorkoutSchedule.objects.filter(user=user, completed=True).count()
 
-    # Add logic for recent workouts
-    recent_workouts = get_recent_workouts(user)
+    # Total Hours Spent Exercising (Sum of durations)
+    total_duration = WorkoutSchedule.objects.filter(user=user, completed=True).aggregate(
+        total_duration=Sum('workout__duration')
+    )['total_duration']
+
+    # Weekly Schedule (Upcoming Workouts for this week)
+    today = timezone.now().date()
+    weekly_schedule = WorkoutSchedule.objects.filter(
+        user=user,
+        date__gte=today,
+        date__lte=today + timezone.timedelta(days=7)
+    ).order_by('date')
 
     context = {
-        'upcoming_workouts': upcoming_workouts,
-        'recent_workouts': recent_workouts,
-        # Add other context variables like goals, goals, etc.
+        'total_completed_workouts': total_completed_workouts,
+        'total_hours_spent': total_duration.total_seconds() / 3600 if total_duration else 0,
+        'weekly_schedule': weekly_schedule,
     }
     return render(request, 'users/profile.html', context)
 

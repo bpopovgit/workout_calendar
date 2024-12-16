@@ -7,94 +7,47 @@
     --warm-accent: #E4A672; /* Peachy accent */
 }
 
-/* Navigation Bar Styles */
+/* General Page Styling */
+body {
+    background-color: var(--warm-light); /* Light warm background */
+    color: var(--warm-dark);
+    font-family: 'Poppins', sans-serif;
+    font-size: 16px;
+    line-height: 1.6;
+}
+
+/* Navigation Bar */
 .navbar {
-    background-color: var(--warm-dark); /* Dark brown background */
-    padding: 15px 0; /* Add padding for better spacing */
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); /* Subtle shadow for depth */
+    background-color: var(--warm-dark);
+    padding: 15px 0;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
 }
 
 .navbar-nav .nav-link {
-    color: var(--warm-accent); /* Peachy accent text */
-    font-size: 1.1rem; /* Increase font size */
-    font-weight: bold; /* Make text bold */
-    padding: 10px 15px; /* Add padding for bigger clickable area */
-    text-transform: uppercase; /* Capitalize text */
-    transition: all 0.3s ease; /* Smooth transition effect */
-    border-radius: 5px; /* Rounded corners */
+    color: var(--warm-accent);
+    font-size: 1.1rem;
+    font-weight: bold;
+    padding: 10px 15px;
+    text-transform: uppercase;
+    transition: all 0.3s ease;
+    border-radius: 5px;
 }
 
 .navbar-nav .nav-link:hover {
-    background-color: var(--warm-primary); /* Warm orange background on hover */
-    color: var(--warm-light); /* Light cream text on hover */
-    text-decoration: none; /* Remove underline */
-    transform: scale(1.1); /* Slight scale-up on hover */
+    background-color: var(--warm-primary);
+    color: var(--warm-light);
+    text-decoration: none;
+    transform: scale(1.1);
 }
 
 .navbar-brand {
-    font-size: 1.5rem; /* Make the logo text bigger */
-    font-weight: bold; /* Bold logo */
-    color: var(--warm-primary); /* Warm orange color */
-    transition: color 0.3s ease; /* Smooth color transition */
+    color: var(--warm-primary);
+    font-size: 1.5rem;
+    font-weight: bold;
 }
 
 .navbar-brand:hover {
-    color: var(--warm-accent); /* Peachy accent on hover */
-}
-
-/* Navigation Button Alignment */
-.navbar-nav {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-}
-
-.navbar-toggler {
-    border: none;
-    background-color: var(--warm-secondary);
-}
-
-.navbar-toggler-icon {
-    background-image: none;
-    display: inline-block;
-    width: 24px;
-    height: 24px;
-    background-color: var(--warm-primary);
-    border-radius: 4px;
-}
-
-/* Main Content */
-body {
-    background-color: var(--warm-light); /* Overall page background */
-    color: var(--warm-dark);
-}
-
-/* Add Workout Button */
-.add-workout-btn {
-    display: inline-block;
-    padding: 12px 24px;
-    background-color: var(--warm-primary);
-    color: white;
-    border: none;
-    border-radius: 8px;
-    font-size: 1rem;
-    font-weight: bold;
-    text-transform: uppercase;
-    cursor: pointer;
-    box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.1);
-    transition: background-color 0.3s ease, transform 0.2s ease;
-}
-
-.add-workout-btn:hover {
-    background-color: #c8742e; /* Slightly darker on hover */
-    transform: translateY(-2px); /* Subtle lift effect */
-}
-
-/* Highlight active page in navbar */
-.navbar-nav .nav-link.active {
-    background-color: var(--warm-primary);
-    color: var(--warm-light);
-    border-radius: 5px;
+    color: var(--warm-accent);
 }
 
 /* Footer */
@@ -104,4 +57,120 @@ footer {
     padding: 10px 0;
     text-align: center;
     font-size: 0.9rem;
+}
+
+/* Card Styling */
+.card {
+    background-color: var(--warm-light);
+    border: 1px solid var(--warm-secondary);
+    border-radius: 8px;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 5px 10px rgba(0, 0, 0, 0.2);
+}
+
+.card h5 {
+    color: var(--warm-dark);
+    font-weight: bold;
+}
+
+/* Your Statistics Section */
+.card-statistics {
+    border: 2px solid var(--warm-primary); /* Orange border for "Your Statistics" */
+}
+
+.card-statistics h5 {
+    color: var(--warm-primary); /* Orange headings */
+}
+
+.card-statistics p {
+    font-size: 2rem;
+    font-weight: bold;
+    color: var(--warm-dark);
+}
+
+/* Weekly Schedule Table */
+.table {
+    border: 1px solid var(--warm-secondary); /* Beige borders */
+    border-radius: 8px;
+    background-color: var(--warm-light); /* Cream background */
+}
+
+.table-dark th {
+    background-color: var(--warm-dark); /* Dark brown for headers */
+    color: var(--warm-light); /* Cream text for headers */
+}
+
+.table td {
+    border: 1px solid var(--warm-secondary); /* Add beige borders to cells */
+    padding: 12px;
+    color: var(--warm-dark); /* Dark brown text */
+    text-align: center;
+}
+
+/* Highlight Rows on Hover */
+.table tbody tr:hover {
+    background-color: var(--warm-secondary); /* Light beige hover */
+    transition: background-color 0.3s ease;
+}
+
+/* Buttons */
+.btn-primary {
+    background-color: var(--warm-primary);
+    color: white;
+    border: none;
+    padding: 10px 20px;
+    font-weight: bold;
+    border-radius: 8px;
+    text-transform: uppercase;
+    transition: background-color 0.3s ease, transform 0.2s ease;
+}
+
+.btn-primary:hover {
+    background-color: #c8742e; /* Slightly darker orange */
+    transform: translateY(-2px);
+}
+
+.btn-secondary {
+    background-color: var(--warm-secondary);
+    color: var(--warm-dark);
+    border: none;
+    padding: 10px 20px;
+    font-weight: bold;
+    border-radius: 8px;
+    text-transform: uppercase;
+    transition: background-color 0.3s ease, transform 0.2s ease;
+}
+
+.btn-secondary:hover {
+    background-color: var(--warm-accent); /* Peachy hover */
+    transform: translateY(-2px);
+}
+
+.btn-success {
+    background-color: #28a745;
+    color: white;
+    font-weight: bold;
+}
+
+.btn-success:hover {
+    background-color: #218838; /* Darker green on hover */
+}
+
+/* Table Header Styling */
+.table-dark th {
+    font-size: 1.1rem;
+    text-transform: uppercase;
+    font-weight: bold;
+    text-align: center;
+}
+
+/* Statistics Icons */
+.statistics-icon {
+    color: var(--warm-primary);
+    font-size: 2.5rem;
+    margin-bottom: 10px;
 }
