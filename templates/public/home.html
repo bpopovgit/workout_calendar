@@ -1,6 +1,41 @@
 {% extends 'base.html' %}
 
+{% block title %}Welcome to TEMPOTRACK{% endblock %}
+
 {% block content %}
-<h1>Welcome to Workout Calendar</h1>
-<p>Manage your workouts, schedule, and track your progress!</p>
+<div class="container mt-5">
+    <h1 class="text-center mb-3" style="font-family: 'Pacifico', cursive; color: var(--warm-dark);">
+        Welcome to TEMPOTRACK
+    </h1>
+    <p class="text-center mb-5" style="font-size: 1.2rem; color: var(--warm-dark);">
+        Track your workouts, set goals, and monitor your progress with ease!
+    </p>
+
+    <!-- Feature Highlights -->
+    <div class="row text-center">
+        <div class="col-md-4 mb-4">
+            <div>
+                <span style="font-size: 2.5rem;">📅</span>
+                <h5 class="mt-2" style="color: var(--warm-primary);">Plan Your Workouts</h5>
+                <p>Create a personalized workout schedule for the week or month.</p>
+            </div>
+        </div>
+
+        <div class="col-md-4 mb-4">
+            <div>
+                <span style="font-size: 2.5rem;">🎯</span>
+                <h5 class="mt-2" style="color: var(--warm-primary);">Set Goals</h5>
+                <p>Track your fitness goals and monitor progress over time.</p>
+            </div>
+        </div>
+
+        <div class="col-md-4 mb-4">
+            <div>
+                <span style="font-size: 2.5rem;">📊</span>
+                <h5 class="mt-2" style="color: var(--warm-primary);">View Progress</h5>
+                <p>Get insights into your workouts and completed tasks.</p>
+            </div>
+        </div>
+    </div>
+</div>
 {% endblock %}

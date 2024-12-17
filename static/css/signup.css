@@ -1,0 +1,89 @@
+/* Root Variables */
+:root {
+    --warm-yellow: #f8bb53; /* Bright yellow */
+    --warm-dark: #4A2E2B; /* Dark brown */
+    --warm-light-yellow: #fde8b8; /* Light yellow */
+    --warm-orange: #d98834; /* Warm orange */
+    --warm-accent: #e4a672; /* Peachy accent */
+    --warm-white: #fffdf6; /* Off-white */
+}
+
+/* Page Background */
+body {
+    background-color: var(--warm-light-yellow);
+    font-family: Arial, sans-serif;
+}
+
+/* Center the form in a card */
+.card {
+    background-color: var(--warm-white);
+    border: none;
+    border-radius: 12px;
+    box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+/* Header Styles */
+h1 {
+    font-size: 2.2rem;
+    font-weight: bold;
+    color: var(--warm-dark);
+}
+
+/* Form Field Styles */
+label {
+    font-weight: bold;
+    color: var(--warm-dark);
+}
+
+.form-control, .form-select {
+    border-radius: 8px;
+    border: 1px solid var(--warm-yellow);
+    padding: 12px;
+    background-color: var(--warm-light-yellow);
+    color: var(--warm-dark);
+}
+
+.form-control:focus, .form-select:focus {
+    border-color: var(--warm-orange);
+    box-shadow: 0px 0px 5px rgba(217, 136, 52, 0.5);
+    outline: none;
+}
+
+/* Buttons */
+.btn-primary {
+    background-color: var(--warm-yellow);
+    border-color: var(--warm-yellow);
+    color: var(--warm-dark);
+    font-weight: bold;
+    text-transform: uppercase;
+    border-radius: 8px;
+    padding: 10px 20px;
+    transition: all 0.3s ease;
+}
+
+.btn-primary:hover {
+    background-color: var(--warm-orange);
+    border-color: var(--warm-orange);
+    color: white;
+}
+
+.btn-secondary {
+    background-color: var(--warm-accent);
+    border-color: var(--warm-accent);
+    color: white;
+    font-weight: bold;
+    border-radius: 8px;
+    padding: 10px 20px;
+    transition: all 0.3s ease;
+}
+
+.btn-secondary:hover {
+    background-color: var(--warm-dark);
+    border-color: var(--warm-dark);
+    color: var(--warm-light-yellow);
+}
+
+/* Add spacing below buttons */
+.mt-4 .btn {
+    margin: 5px;
+}
