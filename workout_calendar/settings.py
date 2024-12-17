@@ -129,6 +129,16 @@ USE_TZ = True
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/5.1/howto/static-files/
 
+# Email Backend
+EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
+
+# SMTP Configuration
+EMAIL_HOST = 'smtp.gmail.com'  # Gmail SMTP server
+EMAIL_PORT = 587  # Port for TLS
+EMAIL_USE_TLS = True  # Use TLS encryption
+EMAIL_HOST_USER = 'your-email@gmail.com'  # Your Gmail email
+EMAIL_HOST_PASSWORD = 'your-email-password'  # Your Gmail App Password
+
 STATIC_URL = 'static/'
 STATICFILES_DIRS = [BASE_DIR / 'static']
 

@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Account Activation</title>
+</head>
+<body>
+    <h2>Welcome {{ user.first_name }}!</h2>
+    <p>
+        Thank you for registering with TEMPOTRACK. Please click the link below to activate your account:
+    </p>
+    <p>
+        <a href="{{ confirm_url }}" style="color: #D98834; font-size: 1.2em;">
+            Activate My Account
+        </a>
+    </p>
+    <p>
+        If you didn't request this, please ignore this email.
+    </p>
+    <p>Thank you, <br> TEMPOTRACK Team</p>
+</body>
+</html>

@@ -1,18 +1,24 @@
 from datetime import date, timedelta, datetime
+
+from django.contrib.auth.tokens import default_token_generator
+from django.core.mail import send_mail
 from django.db.models import Sum, Count
+from django.template.loader import render_to_string
 from django.utils import timezone
+from django.utils.encoding import force_bytes, force_str
+from django.utils.http import urlsafe_base64_encode, urlsafe_base64_decode
 from django.utils.timezone import now
 from django.views.generic.detail import DetailView
 from django.views.generic.edit import UpdateView
 from django.contrib.auth.mixins import LoginRequiredMixin
-from django.urls import reverse_lazy
+from django.urls import reverse_lazy, reverse
 from .forms import CustomUserCreationForm
 from .models import UserProfile
 from django.contrib.auth.forms import UserCreationForm
 from django.views.generic.edit import CreateView
 from django.shortcuts import render
 from django.contrib.auth.decorators import login_required
-from django.http import Http404, JsonResponse
+from django.http import Http404, JsonResponse, HttpResponse
 from ..goals.models import WorkoutLog, Goal
 from ..schedule.models import WorkoutSchedule
 from ..workouts.models import Workout
@@ -51,6 +57,29 @@ class SignUpView(CreateView):
     form_class = CustomUserCreationForm
     template_name = 'users/signup.html'
     success_url = reverse_lazy('login')
+
+    def form_valid(self, form):
+        user = form.save(commit=False)
+        user.is_active = False  # Deactivate account until email is confirmed
+        user.save()
+
+        # Generate email verification token
+        token = default_token_generator.make_token(user)
+        uid = urlsafe_base64_encode(force_bytes(user.pk))
+        confirm_url = self.request.build_absolute_uri(
+            reverse('users:email_verify', kwargs={'uidb64': uid, 'token': token})
+        )
+
+        # Send verification email
+        subject = "Activate Your Account"
+        message = render_to_string('users/verify_email.html', {
+            'user': user,
+            'confirm_url': confirm_url,
+        })
+        send_mail(subject, message, 'noreply@tempotrack.com', [user.email])
+
+        messages.success(self.request, 'Please check your email to confirm your registration.')
+        return redirect('login')
 
 
 # Example logic for fetching upcoming workouts
@@ -144,6 +173,7 @@ def get_workout_data(request):
         "upcoming_workouts": upcoming_data,
     })
 
+
 @login_required
 def edit_profile(request):
     user = request.user
@@ -176,3 +206,19 @@ def edit_profile(request):
         return redirect('users:profile')
 
     return render(request, 'users/edit_profile.html', {'profile': profile})
+
+
+def email_verify(request, uidb64, token):
+    try:
+        uid = force_str(urlsafe_base64_decode(uidb64))
+        user = User.objects.get(pk=uid)
+    except (TypeError, ValueError, OverflowError, User.DoesNotExist):
+        user = None
+
+    if user is not None and default_token_generator.check_token(user, token):
+        user.is_active = True
+        user.save()
+        messages.success(request, 'Your account has been activated successfully! You can now log in.')
+        return redirect('login')
+    else:
+        return HttpResponse('Activation link is invalid or has expired.')

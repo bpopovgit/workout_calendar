@@ -11,25 +11,37 @@
 
 {% block content %}
 <div class="container mt-5 mb-5">
-    <h1 class="text-center mb-4">Sign Up</h1>
+    <h1 class="text-center mb-4">Create Your Account</h1>
 
     <div class="row justify-content-center">
         <div class="col-md-6">
             <!-- Sign Up Form -->
-            <div class="card shadow-sm">
-                <div class="card-body p-4">
+            <div class="card shadow-sm border-0 rounded">
+                <div class="card-header text-white text-center" style="background-color: #f8bb53;">
+                    <h4 class="mb-0">Join TEMPOTRACK</h4>
+                </div>
+                <div class="card-body p-4 bg-light">
+                    <p class="text-muted text-center mb-3">
+                        Fill in the details below to create your account. An activation link will be sent to your email.
+                    </p>
                     <form method="post" novalidate>
                         {% csrf_token %}
                         {{ form|crispy }}
 
-                        <!-- Buttons -->
+                        <!-- Submit Buttons -->
                         <div class="text-center mt-4">
-                            <button type="submit" class="btn btn-primary">Sign Up</button>
-                            <a href="{% url 'login' %}" class="btn btn-secondary ms-2">Cancel</a>
+                            <button type="submit" class="btn btn-primary px-4 py-2" style="background-color: #f8bb53; border: none;">
+                                Sign Up
+                            </button>
+                            <a href="{% url 'login' %}" class="btn btn-secondary px-4 py-2 ms-2">Cancel</a>
                         </div>
                     </form>
                 </div>
             </div>
+            <!-- Extra Information -->
+            <p class="text-center mt-4 text-muted">
+                Already have an account? <a href="{% url 'login' %}" class="text-decoration-none" style="color: #f8bb53;">Login here</a>.
+            </p>
         </div>
     </div>
 </div>
