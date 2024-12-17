@@ -133,18 +133,18 @@ USE_TZ = True
 EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
 
 # SMTP Configuration
-EMAIL_HOST = 'smtp.gmail.com'  # Gmail SMTP server
-EMAIL_PORT = 587  # Port for TLS
-EMAIL_USE_TLS = True  # Use TLS encryption
-EMAIL_HOST_USER = 'your-email@gmail.com'  # Your Gmail email
-EMAIL_HOST_PASSWORD = 'your-email-password'  # Your Gmail App Password
+# EMAIL_HOST = 'smtp.gmail.com'  # Gmail SMTP server
+# EMAIL_PORT = 587  # Port for TLS
+# EMAIL_USE_TLS = True  # Use TLS encryption
+# EMAIL_HOST_USER = 'your-email@gmail.com'  # Your Gmail email
+# EMAIL_HOST_PASSWORD = 'your-email-password'  # Your Gmail App Password
 
 STATIC_URL = 'static/'
 STATICFILES_DIRS = [BASE_DIR / 'static']
 
 # Redirect to the profile page after login
 LOGIN_REDIRECT_URL = '/users/profile/'
-LOGOUT_REDIRECT_URL = '/'
+LOGOUT_REDIRECT_URL = 'http://127.0.0.1:8000/accounts/login/'
 
 MEDIA_URL = '/media/'
 MEDIA_ROOT = BASE_DIR / 'media'

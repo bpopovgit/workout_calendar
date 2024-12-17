@@ -60,7 +60,13 @@ class SignUpView(CreateView):
 
     def form_valid(self, form):
         user = form.save(commit=False)
-        user.is_active = False  # Deactivate account until email is confirmed
+        user.is_active = True  # Activate the account immediately
+        user.save()
+
+        # Commented-out email verification logic
+        """
+        # Deactivate account until email is confirmed
+        user.is_active = False  
         user.save()
 
         # Generate email verification token
@@ -79,6 +85,9 @@ class SignUpView(CreateView):
         send_mail(subject, message, 'noreply@tempotrack.com', [user.email])
 
         messages.success(self.request, 'Please check your email to confirm your registration.')
+        """
+
+        messages.success(self.request, 'Your account has been created successfully! You can now log in.')
         return redirect('login')
 
 
