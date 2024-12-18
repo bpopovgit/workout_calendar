@@ -16,3 +16,51 @@
 - 🛠️ **Custom Admin Panel**: Enhanced with search, sorting, filtering, and role management.
 
 ---
+
+## 🛠️ **Setup Instructions**
+
+Follow these steps to set up and run the project locally:
+
+### 1. Clone the Repository
+
+git clone https://github.com/bpopovgit/workout_calendar.git
+cd workout_calendar
+### 2. Create a Virtual Environment
+
+python -m venv venv
+source venv/bin/activate   # For Linux/Mac
+venv\Scripts\activate      # For Windows
+### 3. Install Dependencies
+
+pip install -r requirements.txt
+
+### 4. Set Up Environment Variables
+
+Create a .env file in the root directory and add the following variables:
+
+SECRET_KEY=your-secret-key
+DEBUG=True
+DATABASE_NAME=your-db-name
+DATABASE_USER=your-db-user
+DATABASE_PASSWORD=your-db-password
+DATABASE_HOST=localhost
+DATABASE_PORT=5432
+
+### 5. Run Migrations
+
+python manage.py makemigrations
+python manage.py migrate
+
+### . Create Superuser
+
+python manage.py createsuperuser
+
+### 7. Start the Development Server
+
+python manage.py runserver
+
+### . Access the Application
+
+User Interface: http://127.0.0.1:8000/
+Admin Panel: http://127.0.0.1:8000/admin/
+
