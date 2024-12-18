@@ -12,7 +12,7 @@
 - 🔑 **Role-Based Permissions**:  
    - **Superusers**: Full CRUD access.  
    - **Staff**: Limited access for managing workouts and goals.  
-- 👤 Normal Users:
+- 👤 **Standard Users**:
   - **Personalized Dashboard**: View and manage your own workouts, goals, and schedules.
   - **Workout Management**: Add, edit, and delete workouts specific to their account.
   - **Goal Tracking**: Set personal fitness goals and monitor progress with clear statistics.
