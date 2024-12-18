@@ -23,44 +23,45 @@ Follow these steps to set up and run the project locally:
 
 ### 1. Clone the Repository
 
-git clone https://github.com/bpopovgit/workout_calendar.git
-cd workout_calendar
+git clone https://github.com/bpopovgit/workout_calendar.git<br>
+cd workout_calendar<br>
 ### 2. Create a Virtual Environment
 
-python -m venv venv
-source venv/bin/activate   # For Linux/Mac
-venv\Scripts\activate      # For Windows
+python -m venv venv<br>
+source venv/bin/activate   # For Linux/Mac<br>
+venv\Scripts\activate      # For Windows<br>
+
 ### 3. Install Dependencies
 
 pip install -r requirements.txt
 
 ### 4. Set Up Environment Variables
 
-Create a .env file in the root directory and add the following variables:
+Create a .env file in the root directory and add the following variables:<br>
 
-SECRET_KEY=your-secret-key
-DEBUG=True
-DATABASE_NAME=your-db-name
-DATABASE_USER=your-db-user
-DATABASE_PASSWORD=your-db-password
-DATABASE_HOST=localhost
-DATABASE_PORT=5432
+SECRET_KEY=your-secret-key<br>
+DEBUG=True<br>
+DATABASE_NAME=your-db-name<br>
+DATABASE_USER=your-db-user<br>
+DATABASE_PASSWORD=your-db-password<br>
+DATABASE_HOST=localhost<br>
+DATABASE_PORT=5432<br>
 
 ### 5. Run Migrations
 
-python manage.py makemigrations
-python manage.py migrate
+python manage.py makemigrations<br>
+python manage.py migrate<br>
 
 ### . Create Superuser
 
-python manage.py createsuperuser
+python manage.py createsuperuser<br>
 
 ### 7. Start the Development Server
 
-python manage.py runserver
+python manage.py runserver<br>
 
 ### . Access the Application
 
-User Interface: http://127.0.0.1:8000/
-Admin Panel: http://127.0.0.1:8000/admin/
+User Interface: http://127.0.0.1:8000/<br>
+Admin Panel: http://127.0.0.1:8000/admin/<br>
 
