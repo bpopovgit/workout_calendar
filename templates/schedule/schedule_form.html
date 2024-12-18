@@ -5,7 +5,7 @@
 {% block title %}Add Workout to Schedule{% endblock %}
 
 {% block content %}
-<div class="container mt-5 mb-5"> <!-- Added mb-5 for spacing from footer -->
+<div class="add-schedule-form container mt-5 mb-5"> <!-- Added mb-5 for spacing from footer -->
     <h1 class="text-center mb-4 text-warm-dark">Add Workout to Schedule</h1>
 
     <!-- Form -->
@@ -21,6 +21,7 @@
     </form>
 </div>
 
+<!-- Scoped Styles for Add Schedule Form -->
 <style>
     /* General Page Styles */
     body {
@@ -33,24 +34,24 @@
         color: var(--warm-dark); /* Dark brown heading */
     }
 
-    /* Form Styles */
-    form {
+    /* Scoped Form Styles */
+    .add-schedule-form form {
         max-width: 700px; /* Form width adjusted */
         margin: auto;
         padding: 20px;
-        background-color: #f8bb53; /* Updated color */
+        background-color: #f8bb53; /* Warm yellow */
         border-radius: 10px;
         box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
     }
 
-    .form-label {
+    .add-schedule-form .form-label {
         font-weight: bold;
         color: var(--warm-dark); /* Dark brown labels */
     }
 
-    input,
-    select,
-    textarea {
+    .add-schedule-form input,
+    .add-schedule-form select,
+    .add-schedule-form textarea {
         padding: 10px;
         border-radius: 8px;
         border: 1px solid #f8bb53; /* Peachy border */
@@ -58,20 +59,20 @@
         color: var(--warm-dark); /* Dark text */
     }
 
-    textarea {
+    .add-schedule-form textarea {
         resize: none; /* Prevent textarea resizing */
     }
 
-    input:focus,
-    select:focus,
-    textarea:focus {
+    .add-schedule-form input:focus,
+    .add-schedule-form select:focus,
+    .add-schedule-form textarea:focus {
         border-color: var(--warm-primary); /* Warm orange on focus */
         box-shadow: 0 0 5px rgba(217, 136, 52, 0.5);
         outline: none;
     }
 
     /* Buttons */
-    .save-btn {
+    .add-schedule-form .save-btn {
         background-color: #d98834; /* Distinct warm orange */
         color: var(--warm-light); /* Cream text */
         border: none;
@@ -81,12 +82,12 @@
         transition: background-color 0.3s ease, transform 0.2s ease;
     }
 
-    .save-btn:hover {
+    .add-schedule-form .save-btn:hover {
         background-color: #c8742e; /* Slightly darker orange */
         transform: translateY(-2px); /* Lift effect */
     }
 
-    .cancel-btn {
+    .add-schedule-form .cancel-btn {
         background-color: #e87e4d; /* Warm peachy color */
         color: var(--warm-light); /* Cream text */
         border: none;
@@ -96,18 +97,13 @@
         transition: background-color 0.3s ease, transform 0.2s ease;
     }
 
-    .cancel-btn:hover {
+    .add-schedule-form .cancel-btn:hover {
         background-color: #d56a3b; /* Slightly darker peach */
         transform: translateY(-2px);
     }
 
-    /* Spacing between fields */
-    .form-group {
-        margin-bottom: 25px; /* Add space between form fields */
-    }
-
     /* Footer Spacing */
-    .container {
+    .add-schedule-form {
         margin-bottom: 50px; /* Added margin for footer spacing */
     }
 </style>
