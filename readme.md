@@ -60,7 +60,7 @@ python manage.py createsuperuser<br>
 
 python manage.py runserver<br>
 
-### . Access the Application
+### 8. Access the Application
 
 User Interface: http://127.0.0.1:8000/<br>
 Admin Panel: http://127.0.0.1:8000/admin/<br>
