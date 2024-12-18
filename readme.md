@@ -12,6 +12,13 @@
 - 🔑 **Role-Based Permissions**:  
    - **Superusers**: Full CRUD access.  
    - **Staff**: Limited access for managing workouts and goals.  
+- 👤 Normal Users:
+  - **Personalized Dashboard**: View and manage your own workouts, goals, and schedules.
+  - **Workout Management**: Add, edit, and delete workouts specific to their account.
+  - **Goal Tracking**: Set personal fitness goals and monitor progress with clear statistics.
+  - **Progress Insights**: Access individual stats like total workouts completed, hours exercised, and goal completion rates.
+  - **Secure Access**: Manage personal account settings, including passwords and profile details.
+  - **Interactive Calendar**: View upcoming workouts and track completed workouts in a user-friendly calendar format. 
 - 📊 **Progress Insights**: View total workouts completed and hours exercised.  
 - 🛠️ **Custom Admin Panel**: Enhanced with search, sorting, filtering, and role management.
 
