@@ -1,15 +1,15 @@
 {% extends 'base.html' %}
 {% load duration_filters %}
 {% load static %}
-{%  load custom_tags %}
+{% load custom_tags %}
 
 {% block head %}
     <link rel="stylesheet" href="{% static 'css/workouts.css' %}">
 {% endblock %}
 
 {% block content %}
-<div class="container mt-4">
-    <h1 class="text-center">Your Workouts</h1>
+<div class="container">
+    <h1>Your Workouts</h1>
     
     {% for workout in workouts %}
         <div class="card mb-3">

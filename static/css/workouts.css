@@ -1,21 +1,32 @@
+/* Limit the width of the main content container */
 .container {
     max-width: 800px;
+    margin: 0 auto; /* Center the container horizontally */
+    padding-top: 20px; /* Add spacing from the top */
 }
 
+/* Header (h1) Styling */
 h1 {
     color: #d98834;
     font-weight: bold;
+    margin-bottom: 20px; /* Add spacing below the header */
+    text-align: center; /* Keep it centered horizontally */
 }
 
-.table-hover tbody tr:hover {
-    background-color: #f9f1e9;
+/* Card Styling */
+.card {
+    border: 1px solid #f8bb53; /* Add a border */
+    border-radius: 8px; /* Slightly rounded corners */
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Add a subtle shadow */
+    background-color: #fff; /* White background for cards */
 }
 
-.badge {
-    font-size: 0.9rem;
-    padding: 0.5em;
+/* Card Body */
+.card-body {
+    padding: 15px; /* Add spacing inside the card */
 }
 
+/* Buttons */
 .btn-primary {
     background-color: #d98834;
     border-color: #d98834;
@@ -36,12 +47,34 @@ h1 {
     border-color: #db4824;
 }
 
-.btn-secondary {
-    background-color: #6c757d;
-    border-color: #6c757d;
+.btn-warning {
+    background-color: #ffc107;
+    border-color: #ffc107;
 }
 
-.btn-secondary:hover {
-    background-color: #5a6268;
-    border-color: #5a6268;
+.btn-warning:hover {
+    background-color: #e0a800;
+    border-color: #e0a800;
+}
+
+/* List Styling */
+.list-group-item {
+    border: none; /* Remove borders from list items */
+    padding: 10px 15px; /* Adjust spacing */
+    background-color: #f9f1e9; /* Subtle background for list items */
+}
+
+.list-group-item p {
+    margin: 0; /* Remove default paragraph margin */
+}
+
+/* Add spacing between cards */
+.card + .card {
+    margin-top: 20px;
+}
+
+/* Center the "Create New Workout" button */
+.text-center a.btn {
+    margin-top: 20px;
+    padding: 10px 20px;
 }
