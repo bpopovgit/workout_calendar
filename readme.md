@@ -26,8 +26,6 @@
 
 ## 🛠️ **Setup Instructions**
 
-Follow these steps to set up and run the project locally:
-
 ### 1. Clone the Repository
 
 git clone https://github.com/bpopovgit/workout_calendar.git<br>
@@ -59,7 +57,7 @@ DATABASE_PORT=5432<br>
 python manage.py makemigrations<br>
 python manage.py migrate<br>
 
-### . Create Superuser
+### 6. Create Superuser
 
 python manage.py createsuperuser<br>
 
